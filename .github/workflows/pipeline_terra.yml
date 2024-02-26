@@ -1,0 +1,10 @@
+name: Final_project
+on:
+  push:
+    branches: master
+jobs:
+  job1:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
