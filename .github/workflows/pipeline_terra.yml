@@ -15,9 +15,5 @@ jobs:
          terraform_version: 1.3.0
          
       - name: Install aws all Dependencies
-        run: |
-         curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-         unzip awscliv2.zip
-         sudo ./aws/install
-
+        uses : aws-actions/install-aws-cli@v1
 
