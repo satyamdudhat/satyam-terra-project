@@ -33,13 +33,15 @@ jobs:
 
       - name: Configure AWS Credentials
         run: |
+          cli_follow_urlparam: true
           sso-start-url: ${{ secrets.AWS_SSO_START_URL }}
           sso-region: ${{ secrets.AWS_REGION }}
           sso-account-id: ${{ secrets.AWS_ACCOUNT_ID }}
           sso-role-name: ${{ secrets.AWS_ROLE_NAME }}
-          sso-role-external-id: ${{ secrets.AWS_ROLE_EXTERNAL_ID }}
           
       - name: Check AWS Account
         run: |
-          ACCOUNT_ID=$(aws sts get-caller-identity --output text --query 'Account')
-          echo "Current AWS Account ID: $ACCOUNT_ID"
+          aws --version
+          
+          # List S3 buckets to verify AWS CLI connectivity
+          aws s3 ls
