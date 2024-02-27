@@ -10,7 +10,7 @@ variable "profile" {
 
 variable "myregion" {
   type = string
-  default = "us-west-2"
+  default = "ap-south-1"
 }
 
 variable "ecr_name" {

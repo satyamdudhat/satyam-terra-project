@@ -1,8 +1,8 @@
 terraform {
   backend "s3" {
-    bucket = "satyam-terra-backend"
+    bucket = "satyam-terra-backend-1"
     key    = "terraform.tfstate"
-    region = "us-west-2"
-    profile = "sandbox"
+    region = "ap-south-1"
+    profile = "satyam"
   }
 }

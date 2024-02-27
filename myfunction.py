@@ -5,7 +5,7 @@ from decimal import Decimal
 from boto3.dynamodb.conditions import Key
 
 # Initialize the DynamoDB client
-dynamodb = boto3.resource('dynamodb', region_name='us-west-2')
+dynamodb = boto3.resource('dynamodb', region_name='ap-south-1')
 dynamodb_table = dynamodb.Table('employee_infos')
 
 status_check_path = '/status'
