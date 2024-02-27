@@ -3,12 +3,12 @@ on:
   push:
     branches: master
     
-env:
-  profile: "sandbox"
-  ecr_name: "satyam_project"
-  table_name: "employee_infos"
-  api_name: "serverless_demos"
-  accountId: "843728461002"
+# env:
+#   profile: "sandbox"
+#   ecr_name: "satyam_project"
+#   table_name: "employee_infos"
+#   api_name: "serverless_demos"
+#   accountId: "843728461002"
   
 
 
