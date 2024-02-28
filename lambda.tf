@@ -1,5 +1,6 @@
 # We create a lambda fucntion which access a ecr image
 resource "aws_lambda_function" "satyam_lambda_function" {
+  depends_on = [ aws_ecr_repository.satyam_project ]
   function_name    = "satyam_lambda_function"
   architectures = [ "arm64" ]
   package_type     = "Image"
