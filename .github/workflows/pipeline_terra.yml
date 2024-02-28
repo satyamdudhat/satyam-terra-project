@@ -22,19 +22,12 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y awscli
-      # - name: Configure AWS Credentials
-      #   run: |
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
           AWS_PROFILE: "satyam"
           
-      - name: Check AWS Account
-        run: |
-          ACCOUNT_ID=$(aws sts get-caller-identity --output text --query 'Account')
-          echo "Current AWS Account ID: $ACCOUNT_ID"
       
-
       
       
