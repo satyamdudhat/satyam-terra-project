@@ -16,6 +16,10 @@ env:
 jobs:
   login:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        runner-os: [ubuntu-latest]
+        runner-arch: [linux/arm64]
 
     steps:
       - name: Checkout Repository
