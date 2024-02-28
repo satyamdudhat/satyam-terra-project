@@ -41,6 +41,10 @@ jobs:
       - name: initialize terraform
         run: terraform init
       
+
+      - name: terrform destroydata
+        run: terraform destroy
+
       - name: terrform preplan
         run: terraform plan
       
