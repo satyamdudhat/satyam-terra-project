@@ -43,7 +43,7 @@ jobs:
       
 
       - name: terrform destroydata
-        run: terraform destroy
+        run: terraform destroy -auto-approve
 
       - name: terrform preplan
         run: terraform plan
