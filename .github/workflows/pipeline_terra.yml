@@ -42,14 +42,14 @@ jobs:
         run: terraform init
       
 
-      - name: terrform destroydata
-        run: terraform destroy -auto-approve
+      # - name: terrform destroydata
+      #   run: terraform destroy -auto-approve
 
       - name: terrform preplan
         run: terraform plan
       
-      # - name: terraform applyplan
-      #   run: terraform apply -auto-approve
+      - name: terraform applyplan
+        run: terraform apply -auto-approve
           
       
       
