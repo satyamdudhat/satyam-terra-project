@@ -17,7 +17,7 @@ jobs:
       - name: Install Terraform
         uses: hashicorp/setup-terraform@v3
         with:
-          terraform_version: 1.2.0
+          terraform_version: 1.7.0
 
       - name: Install AWS CLI
         run: |
@@ -34,8 +34,13 @@ jobs:
       - name: initialize terraform
         run: terraform init
       
-      - name: terraform applyplan
-        run: terraform apply -auto-approve
+      - name: terrform preplan
+        run: terraform plan
+      
+
+
+      # - name: terraform applyplan
+      #   run: terraform apply -auto-approve
           
       
       
