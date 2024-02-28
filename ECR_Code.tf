@@ -6,8 +6,7 @@ resource "aws_ecr_repository" "satyam_project" {
 
 # Code used to deploy an image to ECR using a shell file
 resource "null_resource" "push_docker_image_to_ecr" {
-  depends_on = [aws_ecr_repository.satyam_project]
-  
+  # depends_on = [aws_ecr_repository.satyam_project]
   provisioner "local-exec" {
     command = "bash ./scripts/run_command.sh"
   }
