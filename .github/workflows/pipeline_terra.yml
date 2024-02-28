@@ -31,6 +31,9 @@ jobs:
           aws configure set region ${{ secrets.AWS_DEFAULT_REGION }} --profile satyam
 
         
+      - name: Check Account
+        run: aws sts get-caller-identity
+
       - name: initialize terraform
         run: terraform init
       
