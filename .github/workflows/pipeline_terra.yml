@@ -65,7 +65,7 @@ env:
 
 jobs:
   terraform-and-build:  # Combined job for Terraform and build
-    runs-on: ubuntu-latest-arm64  # Use ARM64 runner
+    runs-on: ubuntu-latest  # Use ARM64 runner
 
     steps:
       - name: Checkout Repository
