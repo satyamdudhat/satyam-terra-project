@@ -301,11 +301,6 @@ resource "aws_api_gateway_deployment" "satyam_deployement" {
         aws_api_gateway_integration.integration3,
         aws_api_gateway_integration.integration4,
         aws_api_gateway_integration.integration5
-
-
-
-
-
     ]
 
 }
