@@ -10,7 +10,7 @@ resource "null_resource" "push_docker_image_to_ecr" {
   depends_on = [aws_ecr_repository.satyam_project]
   provisioner "local-exec" {
     # command = "chmod +x ./scripts/run_command.sh"
-    # command = "bash ./scripts/run_command.sh"
-    command = "chmod +x ./scripts/run_command.sh && bash ./scripts/run_command.sh"
+    command = "bash ./scripts/run_command.sh"
+    # command = "chmod +x ./scripts/run_command.sh && bash ./scripts/run_command.sh"
   }
 }

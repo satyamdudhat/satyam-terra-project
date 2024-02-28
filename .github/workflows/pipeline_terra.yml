@@ -37,19 +37,21 @@ jobs:
           aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }} --profile satyam
           aws configure set region ${{ secrets.AWS_DEFAULT_REGION }} --profile satyam
 
-        
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1  
+
       - name: initialize terraform
         run: terraform init
       
 
-      # - name: terrform destroydata
-      #   run: terraform destroy -auto-approve
+      - name: terrform destroydata
+        run: terraform destroy -auto-approve
 
       - name: terrform preplan
         run: terraform plan
       
-      - name: terraform applyplan
-        run: terraform apply -auto-approve
+      # - name: terraform applyplan
+      #   run: terraform apply -auto-approve
           
       
       
