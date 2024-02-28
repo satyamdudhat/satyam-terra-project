@@ -48,10 +48,8 @@ jobs:
       - name: terrform preplan
         run: terraform plan
       
-
-
-      # - name: terraform applyplan
-      #   run: terraform apply -auto-approve
+      - name: terraform applyplan
+        run: terraform apply -auto-approve
           
       
       
