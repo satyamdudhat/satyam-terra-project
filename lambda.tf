@@ -1,5 +1,6 @@
 # We create a lambda fucntion which access a ecr image
 resource "aws_lambda_function" "satyam_lambda_function" {
+  depends_on = [null_resource.push_docker_image_to_ecr]
   function_name    = "satyam_lambda_function"
   architectures = [ "arm64" ]
   package_type     = "Image"
