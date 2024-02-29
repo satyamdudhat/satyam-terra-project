@@ -48,13 +48,3 @@ jobs:
 
       - name: Terraform apply plan
         run: terraform apply -auto-approve
-
-      - name: Build Docker Image (Separated stage)  # Separate stage for clarity
-        uses: actions/docker/build@v3
-        with:
-          context: .  # Build from the current directory
-          dockerfile: ./Dockerfile  # Specify the Dockerfile path
-          # Push to ECR if necessary (requires additional configuration)
-          # ...
-
-  # Additional jobs for other processes (if needed)
