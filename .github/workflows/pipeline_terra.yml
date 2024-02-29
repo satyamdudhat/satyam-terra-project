@@ -1,7 +1,7 @@
 name: Satyam_project
 
 on:
-  workflow_dispatch: 
+  workflow_dispatch:  # Allow manual triggering
   push:
     branches:
       - master
@@ -11,11 +11,11 @@ env:
   TF_VAR_ecr_name: "satyam_project"
   TF_VAR_table_name: "employee_infos"
   TF_VAR_api_name: "serverless_demos"
-  TF_VAR_accountId: ${{secrets.AWS_ACCOUNT_ID}}
+  TF_VAR_accountId: ${{ secrets.AWS_ACCOUNT_ID }}
 
 jobs:
-  login:
-    runs-on: ubuntu-latest
+  terraform-and-build:  # Combined job for Terraform and build
+    runs-on: ubuntu-latest-arm64  # Use ARM64 runner
 
     steps:
       - name: Checkout Repository
@@ -30,25 +30,31 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y awscli
-       
+
       - name: Configuration
         run: |
           aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }} --profile satyam
           aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }} --profile satyam
           aws configure set region ${{ secrets.AWS_DEFAULT_REGION }} --profile satyam
 
-      - name: initialize terraform
+      - name: Terraform init
         run: terraform init
-      
-      - name: terrform destroydata
-        run: terraform destroy -auto-approve
 
-      - name: terrform preplan
+      - name: Terraform destroy (if applicable)
+        run: terraform destroy -auto-approve  # Optional: Only run if necessary
+
+      - name: Terraform preplan
         run: terraform plan
-      
-      - name: terraform applyplan
+
+      - name: Terraform apply plan
         run: terraform apply -auto-approve
-          
-      
-      
-      
+
+      - name: Build Docker Image (Separated stage)  # Separate stage for clarity
+        uses: actions/docker/build@v3
+        with:
+          context: .  # Build from the current directory
+          dockerfile: ./Dockerfile  # Specify the Dockerfile path
+          # Push to ECR if necessary (requires additional configuration)
+          # ...
+
+  # Additional jobs for other processes (if needed)
