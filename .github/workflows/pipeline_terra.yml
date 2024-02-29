@@ -14,43 +14,40 @@ env:
   TF_VAR_accountId: ${{secrets.AWS_ACCOUNT_ID}}
 
 jobs:
-  check_architecture:
-    runs-on: ubuntu-latest-arm64
+  login:
+    runs-on: ubuntu-latest
+
     steps:
-      - name: Check Architecture
-        run: uname -m
+      - name: Checkout Repository
+        uses: actions/checkout@v4
 
-    # steps:
-    #   - name: Checkout Repository
-    #     uses: actions/checkout@v4
+      - name: Install Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.7.0
 
-    #   - name: Install Terraform
-    #     uses: hashicorp/setup-terraform@v3
-    #     with:
-    #       terraform_version: 1.7.0
-
-    #   - name: Install AWS CLI
-    #     run: |
-    #       sudo apt-get update
-    #       sudo apt-get install -y awscli
+      - name: Install AWS CLI
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y awscli
        
-    #   - name: Configuration
-    #     run: |
-    #       aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }} --profile satyam
-    #       aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }} --profile satyam
-    #       aws configure set region ${{ secrets.AWS_DEFAULT_REGION }} --profile satyam
+      - name: Configuration
+        run: |
+          aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }} --profile satyam
+          aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }} --profile satyam
+          aws configure set region ${{ secrets.AWS_DEFAULT_REGION }} --profile satyam
 
-    #   - name: initialize terraform
-    #     run: terraform init
+      - name: initialize terraform
+        run: terraform init
       
-    #   - name: terrform destroydata
-    #     run: terraform destroy -auto-approve
+      - name: terrform destroydata
+        run: terraform destroy -auto-approve
 
-    #   - name: terrform preplan
-    #     run: terraform plan
+      - name: terrform preplan
+        run: terraform plan
       
-    #   - name: terraform applyplan
-    #     run: terraform apply -auto-approve
+      - name: terraform applyplan
+        run: terraform apply -auto-approve
           
       
       
