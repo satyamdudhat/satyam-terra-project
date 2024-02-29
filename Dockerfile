@@ -13,6 +13,7 @@
 
 
 FROM public.ecr.aws/lambda/python:3.8
+RUN apk add --no-cache python3 py3-pip
 
 COPY myfunction.py .
 
