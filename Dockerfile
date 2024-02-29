@@ -12,7 +12,7 @@
 # CMD ["myfunction.lambda_handler"]
 
 
-FROM public.ecr.aws/lambda/python:3.8
+FROM python:3.6-alpine
 RUN apk add --no-cache python3 py3-pip
 
 COPY myfunction.py .
