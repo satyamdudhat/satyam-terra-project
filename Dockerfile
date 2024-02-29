@@ -5,8 +5,8 @@ FROM python:3.6-alpine
 # RUN apt-get update
 # RUN apt-get install -y python3-pip
 RUN apk add --no-cache python3 py3-pip
-COPY requirements.txt ./
+COPY requirements.txt .
 RUN pip install -r requirements.txt
-COPY myfunction.py ./
+COPY myfunction.py .
 
 CMD ["myfunction.lambda_handler"]
