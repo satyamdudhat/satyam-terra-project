@@ -43,10 +43,10 @@ jobs:
       - name: Terraform destroy (if applicable)
         run: terraform destroy -auto-approve  # Optional: Only run if necessary
 
-      # - name: Terraform preplan
-      #   run: terraform plan
+      - name: Terraform preplan
+        run: terraform plan
 
-      # - name: Terraform apply plan
-      #   run: terraform apply -auto-approve
+      - name: Terraform apply plan
+        run: terraform apply -auto-approve
 
       

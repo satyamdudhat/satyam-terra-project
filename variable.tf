@@ -1,3 +1,4 @@
+# Account All Details
 variable "accountId" {
   type = string
 }
@@ -17,18 +18,28 @@ variable "ecr_name" {
   type = string
 }
 
+
+
+
+
+
+
+
+
+# DynamoDB Table Name
 variable "table_name" {
   type = string
 }
 
 
-variable "api_name" {
-  type = string
-}
 
 
 
 # Api Gateway Resource name
+variable "api_name" {
+  type = string
+}
+
 variable "endpoint_path" {
   type = string
   default = "status"
