@@ -130,11 +130,14 @@ class DecimalEncoder(json.JSONEncoder):
         # Let the base class default method raise the TypeError
         return super(DecimalEncoder, self).default(obj)
 
-def build_response(status_code, body):
+def build_response(status_code, body, allowed_origin="*"):
     return {
         'statusCode': status_code,
         'headers': {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': allowed_origin,
+            'Access-Control-Allow-Methods': 'GET, POST, PUT, PATCH, DELETE, OPTIONS',  
+            'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-Amz-Date, X-Amz-Security-Token'
         },
         'body': json.dumps(body, cls=DecimalEncoder)
     }
