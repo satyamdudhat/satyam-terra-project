@@ -50,7 +50,7 @@ resource "aws_api_gateway_method_response" "method_response1" {
   status_code = "200"
 
   response_parameters = {
-    "method.response.header.Access-Control-Allow-Origin" = "'*'"
+    "method.response.header.Access-Control-Allow-Origin" = true
   }
 }
 
