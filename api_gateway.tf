@@ -40,6 +40,8 @@ resource "aws_lambda_permission" "apigw_lambda" {
   source_arn = "arn:aws:execute-api:${var.myregion}:${var.accountId}:${aws_api_gateway_rest_api.serverless_demos.id}/*/${aws_api_gateway_method.serverless_demos_method.http_method}${aws_api_gateway_resource.serverless_demos_resource.path}"
 }
 
+
+
 # ---------------------CoRS Integration
 resource "aws_api_gateway_method_response" "method_response1" {
   rest_api_id = "${aws_api_gateway_rest_api.serverless_demos.id}"
@@ -61,6 +63,8 @@ resource "aws_api_gateway_integration_response" "integration_response1" {
   response_parameters = {
     "method.response.header.Access-Control-Allow-Origin" = true
   }
+
+    depends_on = [aws_api_gateway_integration.integration]
 }
 # -------------End Of Cors Integration
 
