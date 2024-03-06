@@ -50,7 +50,7 @@ resource "aws_api_gateway_method_response" "method_response1" {
   status_code = "200"
 
   response_parameters = {
-    "method.response.header.Access-Control-Allow-Origin" = true
+    "method.response.header.Access-Control-Allow-Origin" = "'*'"
   }
 }
 
@@ -61,7 +61,7 @@ resource "aws_api_gateway_integration_response" "integration_response1" {
   status_code = "200"
 
   response_parameters = {
-    "method.response.header.Access-Control-Allow-Origin" = true
+    "method.response.header.Access-Control-Allow-Origin" = "'*'"
   }
 
     depends_on = [aws_api_gateway_integration.integration]
