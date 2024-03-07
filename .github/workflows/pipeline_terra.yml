@@ -71,16 +71,11 @@ jobs:
         if: steps.check-images.outputs.images-exist == 'false'
         run: bash scripts/run_command.sh
 
+      - name: Terraform preplan
+        run: terraform plan
 
-
-          
-
-
-      # - name: Terraform preplan
-      #   run: terraform plan
-
-      # - name: Terraform apply plan
-      #   run: terraform apply -auto-approve
+      - name: Terraform apply plan
+        run: terraform apply -auto-approve
 
       # - name: Terraform destroy (if applicable)
       #   run: terraform destroy -auto-approve  # Optional: Only run if necessary
