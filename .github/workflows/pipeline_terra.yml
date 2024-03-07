@@ -41,6 +41,7 @@ jobs:
         run: terraform init
 
       
+
       # Check if the ECR repository exists
       - name: Check ECR Repository
         id: check-ecr
@@ -52,7 +53,19 @@ jobs:
             echo "ECR repository does not exist, create repository"
             echo "::set-output name=exists::false"
          fi
-    
+          
+
+      # Check if any images exist in the ECR repository
+      - name: Check ECR Images
+        id: check-images
+        run: |
+          if aws ecr describe-images --repository-name "satyam_project" --profile satyam &> /dev/null; then
+            echo "Images exist in the ECR repository"
+            echo "::set-output name=images-exist::true"
+          else
+            echo "No images found in the ECR repository, run shell script"
+            echo "::set-output name=images-exist::false"
+          fi
 
 
 
