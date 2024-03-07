@@ -67,6 +67,10 @@ jobs:
             echo "::set-output name=images-exist::true"
           fi
 
+      - name: Run Shell Script
+        if: steps.check-images.outputs.images-exist == 'false'
+        run: bash scripts/run_command.sh
+
 
 
           
