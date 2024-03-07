@@ -58,16 +58,8 @@ jobs:
       # Check if any images exist in the ECR repository
       - name: Check ECR Images
         id: check-images
-        run: |
-          images=$(aws ecr describe-images --repository-name "satyam_project" --profile satyam)
-          if [ -z "$images" ]; then
-            echo "No images found in the ECR repository, run shell script"
-            echo "::set-output name=images-exist::false"
-          else
-            echo "Images exist in the ECR repository"
-            echo "::set-output name=images-exist::true"
-          fi
-
+        run: aws ecr describe-images --repository-name "satyam_project" --profile satyam
+          
 
 
 
