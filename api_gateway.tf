@@ -89,6 +89,12 @@ resource "aws_api_gateway_integration_response" "integration_response1" {
 
 
 
+
+
+
+
+
+
 #---------------------------------------------Employee Resource Code--------------------------------------------------------------------------------------------
 resource "aws_api_gateway_resource" "serverless_demos_employee" {
   rest_api_id = "${aws_api_gateway_rest_api.serverless_demos.id}"
