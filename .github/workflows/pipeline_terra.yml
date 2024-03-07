@@ -43,10 +43,23 @@ jobs:
       # - name: Terraform destroy (if applicable)
       #   run: terraform destroy -auto-approve  # Optional: Only run if necessary
 
+      # Check if the ECR repository exists
+      - name: Check ECR Repository
+        id: check-ecr
+        run: |
+          if aws ecr describe-repositories --repository-names "satyam_project" &> /dev/null; then
+            echo "ECR repository exists"
+            echo "::set-output name=exists::true"
+          else
+            echo "ECR repository does not exist, create repository"
+            echo "::set-output name=exists::false"
+          fi
+
+
       - name: Terraform preplan
         run: terraform plan
 
-      - name: Terraform apply plan
-        run: terraform apply -auto-approve
+      # - name: Terraform apply plan
+      #   run: terraform apply -auto-approve
 
       
