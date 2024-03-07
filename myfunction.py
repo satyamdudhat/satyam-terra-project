@@ -21,7 +21,7 @@ def lambda_handler(event, context):
         path = event.get('path')
 
         if http_method == 'GET' and path == status_check_path:
-            response = build_response(200, 'Service is operational')
+            response = build_response(200, 'Service is Testing;;;;;')
         elif http_method == 'GET' and path == employee_path:
             employee_id = event['queryStringParameters']['employeeid']
             response = get_employee(employee_id)
