@@ -72,6 +72,29 @@ resource "aws_api_gateway_integration_response" "integration_response1" {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #---------------------------------------------Employee Resource Code--------------------------------------------------------------------------------------------
 resource "aws_api_gateway_resource" "serverless_demos_employee" {
   rest_api_id = "${aws_api_gateway_rest_api.serverless_demos.id}"
@@ -111,6 +134,57 @@ resource "aws_lambda_permission" "apigw_lambda1" {
   source_arn = "arn:aws:execute-api:${var.myregion}:${var.accountId}:${aws_api_gateway_rest_api.serverless_demos.id}/*/${aws_api_gateway_method.serverless_demos_employee_GET.http_method}${aws_api_gateway_resource.serverless_demos_employee.path}"
 }
 
+# ---------------------CoRS Integration employees
+resource "aws_api_gateway_method_response" "method_response2" {
+  rest_api_id = "${aws_api_gateway_rest_api.serverless_demos.id}"
+  resource_id   = "${aws_api_gateway_resource.serverless_demos_employee.id}"
+  http_method = "${aws_api_gateway_method.serverless_demos_employee_GET.http_method}"
+  status_code = "200"
+
+  response_parameters = {
+    "method.response.header.Access-Control-Allow-Origin" = true
+  }
+}
+
+resource "aws_api_gateway_integration_response" "integration_response2" {
+  rest_api_id = "${aws_api_gateway_rest_api.serverless_demos.id}"
+  resource_id   = "${aws_api_gateway_resource.serverless_demos_employee.id}"
+  http_method = "${aws_api_gateway_method.serverless_demos_employee_GET.http_method}"
+  status_code = "200"
+
+  response_parameters = {
+    "method.response.header.Access-Control-Allow-Origin" = "'*'"
+  }
+  depends_on = [aws_api_gateway_integration.integration1]
+}
+# -------------End Of Cors Integration
+# ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 #---------------------------- Get Method 
 resource "aws_api_gateway_method" "serverless_demos_employee_GET1" {
@@ -141,6 +215,52 @@ resource "aws_lambda_permission" "apigw_lambda2" {
   # within the API Gateway "REST API".
   source_arn = "arn:aws:execute-api:${var.myregion}:${var.accountId}:${aws_api_gateway_rest_api.serverless_demos.id}/*/${aws_api_gateway_method.serverless_demos_employee_GET1.http_method}${aws_api_gateway_resource.serverless_demos_employee.path}"
 }
+
+# ---------------------CoRS Integration employees
+resource "aws_api_gateway_method_response" "method_response3" {
+ rest_api_id = "${aws_api_gateway_rest_api.serverless_demos.id}"
+  resource_id   = "${aws_api_gateway_resource.serverless_demos_employee.id}"
+  http_method = "${aws_api_gateway_method.serverless_demos_employee_GET1.http_method}"
+  status_code = "200"
+
+  response_parameters = {
+    "method.response.header.Access-Control-Allow-Origin" = true
+  }
+}
+
+resource "aws_api_gateway_integration_response" "integration_response3" {
+ rest_api_id = "${aws_api_gateway_rest_api.serverless_demos.id}"
+  resource_id   = "${aws_api_gateway_resource.serverless_demos_employee.id}"
+  http_method = "${aws_api_gateway_method.serverless_demos_employee_GET1.http_method}"
+  status_code = "200"
+
+  response_parameters = {
+    "method.response.header.Access-Control-Allow-Origin" = "'*'"
+  }
+  depends_on = [aws_api_gateway_integration.integration2]
+}
+# -------------End Of Cors Integration
+
+
+# ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -173,6 +293,59 @@ resource "aws_lambda_permission" "apigw_lambda3" {
   # within the API Gateway "REST API".
   source_arn = "arn:aws:execute-api:${var.myregion}:${var.accountId}:${aws_api_gateway_rest_api.serverless_demos.id}/*/${aws_api_gateway_method.serverless_demos_employee_GET2.http_method}${aws_api_gateway_resource.serverless_demos_employee.path}"
 }
+
+# ---------------------CoRS Integration employees
+resource "aws_api_gateway_method_response" "method_response4" {
+ rest_api_id = "${aws_api_gateway_rest_api.serverless_demos.id}"
+  resource_id   = "${aws_api_gateway_resource.serverless_demos_employee.id}"
+  http_method = "${aws_api_gateway_method.serverless_demos_employee_GET2.http_method}"
+  status_code = "200"
+
+  response_parameters = {
+    "method.response.header.Access-Control-Allow-Origin" = true
+  }
+}
+
+resource "aws_api_gateway_integration_response" "integration_response4" {
+ rest_api_id = "${aws_api_gateway_rest_api.serverless_demos.id}"
+  resource_id   = "${aws_api_gateway_resource.serverless_demos_employee.id}"
+  http_method = "${aws_api_gateway_method.serverless_demos_employee_GET2.http_method}"
+  status_code = "200"
+
+  response_parameters = {
+    "method.response.header.Access-Control-Allow-Origin" = "'*'"
+  }
+  depends_on = [aws_api_gateway_integration.integration3]
+}
+# -------------End Of Cors Integration
+
+
+
+
+# ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -209,6 +382,90 @@ resource "aws_lambda_permission" "apigw_lambda4" {
   # within the API Gateway "REST API".
   source_arn = "arn:aws:execute-api:${var.myregion}:${var.accountId}:${aws_api_gateway_rest_api.serverless_demos.id}/*/${aws_api_gateway_method.serverless_demos_employee_GET3.http_method}${aws_api_gateway_resource.serverless_demos_employee.path}"
 }
+
+# ---------------------CoRS Integration employees
+resource "aws_api_gateway_method_response" "method_response5" {
+ rest_api_id = "${aws_api_gateway_rest_api.serverless_demos.id}"
+  resource_id   = "${aws_api_gateway_resource.serverless_demos_employee.id}"
+  http_method = "${aws_api_gateway_method.serverless_demos_employee_GET3.http_method}"
+  status_code = "200"
+
+  response_parameters = {
+    "method.response.header.Access-Control-Allow-Origin" = true
+  }
+}
+
+resource "aws_api_gateway_integration_response" "integration_response5" {
+ rest_api_id = "${aws_api_gateway_rest_api.serverless_demos.id}"
+  resource_id   = "${aws_api_gateway_resource.serverless_demos_employee.id}"
+  http_method = "${aws_api_gateway_method.serverless_demos_employee_GET3.http_method}"
+  status_code = "200"
+
+  response_parameters = {
+    "method.response.header.Access-Control-Allow-Origin" = "'*'"
+  }
+  depends_on = [aws_api_gateway_integration.integration4]
+}
+# -------------End Of Cors Integration
+
+
+
+
+
+
+
+
+
+# ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -265,7 +522,7 @@ resource "aws_lambda_permission" "apigw_lambda5" {
 
 
 # ---------------------CoRS Integration employees
-resource "aws_api_gateway_method_response" "method_response2" {
+resource "aws_api_gateway_method_response" "method_response6" {
  rest_api_id = "${aws_api_gateway_rest_api.serverless_demos.id}"
   resource_id   = "${aws_api_gateway_resource.serverless_demos_employees.id}"
   http_method = "${aws_api_gateway_method.serverless_demos_employee_GET4.http_method}"
@@ -276,7 +533,7 @@ resource "aws_api_gateway_method_response" "method_response2" {
   }
 }
 
-resource "aws_api_gateway_integration_response" "integration_response2" {
+resource "aws_api_gateway_integration_response" "integration_response6" {
  rest_api_id = "${aws_api_gateway_rest_api.serverless_demos.id}"
   resource_id   = "${aws_api_gateway_resource.serverless_demos_employees.id}"
   http_method = "${aws_api_gateway_method.serverless_demos_employee_GET4.http_method}"
@@ -319,7 +576,7 @@ resource "aws_api_gateway_integration_response" "integration_response2" {
 
 
 
-
+# ----------------------------Deployement Code--------------------------------------------
 
 resource "aws_api_gateway_deployment" "satyam_deployement" {
   rest_api_id = "${aws_api_gateway_rest_api.serverless_demos.id}"
@@ -368,6 +625,10 @@ resource "aws_api_gateway_deployment" "satyam_deployement" {
 
 }
 
+
+
+
+# -----------------Stage Code----------------------------------------------------
 resource "aws_api_gateway_stage" "satyam_stage" {
   deployment_id = aws_api_gateway_deployment.satyam_deployement.id
   rest_api_id = aws_api_gateway_rest_api.serverless_demos.id
