@@ -4,7 +4,6 @@ resource "aws_ecr_repository" "satyam_project" {
   image_tag_mutability = "IMMUTABLE" #using this we can make a private Registry
 }
 
-# Code used to deploy an image to ECR using a shell file
 resource "null_resource" "default" {
 
   # depends_on = [aws_ecr_repository.satyam_project]
