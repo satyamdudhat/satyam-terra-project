@@ -4,6 +4,6 @@
 #   function_name    = "satyam_lambda_function"
 #   architectures = ["x86_64"]
 #   package_type     = "Image"
-#   image_uri        = "${aws_ecr_repository.satyam_project.repository_url}:${data.aws_ecr_image.latest_image.image_tag}"
+#   image_uri        = "${aws_ecr_repository.satyam_project.repository_url}:latest"
 #   role             = aws_iam_role.satyam_lambda_execution_role.arn
 # }

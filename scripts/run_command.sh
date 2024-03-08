@@ -2,7 +2,7 @@
 
 GITHUB_COMMIT_HASH=$(git rev-parse --short HEAD)
 
-DOCKER_IMAGE_TAG="satyam-image:${GITHUB_COMMIT_HASH}"
+DOCKER_IMAGE_TAG="${GITHUB_COMMIT_HASH},latest"
 
 aws ecr get-login-password --region ap-south-1 --profile satyam | docker login --username AWS --password-stdin 637423557273.dkr.ecr.ap-south-1.amazonaws.com
 docker build -t "${DOCKER_IMAGE_TAG}" .
