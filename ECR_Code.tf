@@ -5,11 +5,6 @@ resource "aws_ecr_repository" "satyam_project" {
   
 }
 
-data "aws_ecr_image" "latest_image" {
-  repository_name = aws_ecr_repository.satyam_project.name
-  most_recent = true
-}
-
 resource "null_resource" "default" {
 
   # depends_on = [aws_ecr_repository.satyam_project]
