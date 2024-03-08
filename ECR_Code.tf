@@ -1,7 +1,12 @@
 # ECR
 resource "aws_ecr_repository" "satyam_project" {
-  name = var.ecr_name
-  image_tag_mutability = "IMMUTABLE" #using this we can make a private Registry
+  name                  = var.ecr_name
+  image_tag_mutability = "IMMUTABLE" # Using this we can make a private Registry
+}
+
+data "aws_ecr_image" "latest_image" {
+  repository_name = aws_ecr_repository.satyam_project.name
+  most_recent = true
 }
 
 resource "null_resource" "default" {
