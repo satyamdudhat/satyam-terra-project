@@ -1,7 +1,8 @@
 # ECR
 resource "aws_ecr_repository" "satyam_project" {
-  name                  = var.ecr_name
-  # image_tag_mutability = "IMMUTABLE" # Using this we can make a private Registry
+  name = var.ecr_name
+  image_tag_mutability = "MUTABLE" #using this we can make a private Registry
+  
 }
 
 data "aws_ecr_image" "latest_image" {
