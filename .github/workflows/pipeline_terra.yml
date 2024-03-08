@@ -40,7 +40,8 @@ jobs:
       - name: Terraform init
         run: terraform init
 
-      
+      - name: Terraform destroy (if applicable)
+        run: terraform destroy -auto-approve  # Optional: Only run if necessary
 
       
       - name: Terraform preplan
@@ -49,8 +50,7 @@ jobs:
       - name: Terraform apply plan
         run: terraform apply -auto-approve
 
-      # - name: Terraform destroy (if applicable)
-      #   run: terraform destroy -auto-approve  # Optional: Only run if necessary
+      
 
 
       
