@@ -42,43 +42,15 @@ jobs:
 
       
 
-      # Check if the ECR repository exists
-      - name: Check ECR Repository
-        id: check-ecr
-        run: |
-         if aws ecr describe-repositories --repository-names "satyam_project" --profile satyam &> /dev/null; then
-            echo "ECR repository exists"
-            echo "::set-output name=exists::true"
-         else
-            echo "ECR repository does not exist, create repository"
-            echo "::set-output name=exists::false"
-         fi
-          
+      
+      # - name: Terraform preplan
+      #   run: terraform plan
 
-      # Check if any images exist in the ECR repository
-      - name: Check ECR Images
-        id: check-images
-        run: |
-          if aws ecr describe-images --repository-name "satyam_project" --profile satyam | jq -e '.imageDetails | length == 0' &> /dev/null; then
-            echo "No images found in the ECR repository"
-            echo "::set-output name=images-exist::false"
-          else
-            echo "Images exist in the ECR repository"
-            echo "::set-output name=images-exist::true"
-          fi
+      # - name: Terraform apply plan
+      #   run: terraform apply -auto-approve
 
-      - name: Run Shell Script
-        if: steps.check-images.outputs.images-exist == 'false'
-        run: bash scripts/run_command.sh
-
-      - name: Terraform preplan
-        run: terraform plan
-
-      - name: Terraform apply plan
-        run: terraform apply -auto-approve
-
-      # - name: Terraform destroy (if applicable)
-      #   run: terraform destroy -auto-approve  # Optional: Only run if necessary
+      - name: Terraform destroy (if applicable)
+        run: terraform destroy -auto-approve  # Optional: Only run if necessary
 
 
       
