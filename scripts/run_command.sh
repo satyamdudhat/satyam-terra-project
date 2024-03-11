@@ -1,8 +1,8 @@
 #!/bin/bash
 
 GITHUB_COMMIT_HASH=$(git rev-parse --short HEAD)
-ACCOUNT_ID = 637423557273
-IMAGE_NAME = "satyam_fucntion1"
+ACCOUNT_ID=637423557273
+IMAGE_NAME="satyam_fucntion1"
 
 # DOCKER_IMAGE_TAG="${GITHUB_COMMIT_HASH}"
 
