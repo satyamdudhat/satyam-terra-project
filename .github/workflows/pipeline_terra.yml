@@ -46,8 +46,8 @@ jobs:
       - name: Terraform preplan
         run: terraform plan
       
-      # - name: Run Shell Script
-      #   run: bash scripts/run_command.sh
+      - name: Run Shell Script
+        run: bash scripts/run_command.sh
   
       - name: Terraform apply plan
         run: terraform apply -auto-approve
