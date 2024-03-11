@@ -36,6 +36,7 @@ resource "aws_lambda_permission" "apigw_lambda" {
   principal     = "apigateway.amazonaws.com"
 
   source_arn = "arn:aws:execute-api:${var.myregion}:${var.accountId}:${aws_api_gateway_rest_api.serverless_demos.id}/*/${aws_api_gateway_method.serverless_demos_method.http_method}${aws_api_gateway_resource.serverless_demos_resource.path}"
+    # source_arn = "${aws_api_gateway_rest_api.serverless_demos.execution_arn}${aws_api_gateway_resource.serverless_demos_resource.path}/*/${aws_api_gateway_method.serverless_demos_method.http_method}"
 }
 
 
