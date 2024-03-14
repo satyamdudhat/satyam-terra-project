@@ -42,7 +42,7 @@ jobs:
       - name: Terraform init
         run: terraform init
 
-      - name: Terraform apply plan
+      - name: Terraform Destroy plan
         run: terraform destroy -auto-approve
 
       - name: Terraform preplan
@@ -61,7 +61,8 @@ jobs:
               echo "::set-output name=exists::false"
               aws ecr create-repository \
                   --repository-name satyam_project \
-                  --image-tag-mutability MUTABLE
+                  --image-tag-mutability MUTABLE \
+                  --profile satyam
            fi
 
       # - name: Run Shell Script
