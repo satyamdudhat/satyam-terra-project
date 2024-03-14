@@ -5,10 +5,10 @@ resource "aws_ecr_repository" "satyam_project" {
   
 }
 
-# resource "null_resource" "default" {
+resource "null_resource" "default" {
 
-#   # depends_on = [aws_ecr_repository.satyam_project]
-#   provisioner "local-exec" {
-#     command = "bash ./scripts/run_command.sh"
-#   }
-# } 
+  # depends_on = [aws_ecr_repository.satyam_project]
+  provisioner "local-exec" {
+    command = "bash ./scripts/run_command.sh"
+  }
+} 
