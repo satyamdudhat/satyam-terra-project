@@ -38,11 +38,9 @@ jobs:
           export AWS_DEFAULT_REGION="${{ secrets.AWS_DEFAULT_REGION }}"
     
       - name: Configuration
-        run: |
-          chmod +x scripts/aws_configuration.sh
-          bash scripts/aws_configuration.sh
+        run: bash scripts/aws_configuration.sh
           
-          
+
       - name: Terraform init
         run: terraform init
       
