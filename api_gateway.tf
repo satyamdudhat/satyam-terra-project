@@ -30,9 +30,9 @@ resource "aws_api_gateway_integration" "integration" {
 
 
 # Data Block
-data "aws_api_gateway_rest_api" "datablock1" {
-  name = "serverless_demos"
-}
+# data "aws_api_gateway_rest_api" "datablock1" {
+#   name = "serverless_demos"
+# }
 
 
 
@@ -43,8 +43,11 @@ resource "aws_lambda_permission" "apigw_lambda" {
   function_name = "${aws_lambda_function.satyam_lambda_function.function_name}"
   principal     = "apigateway.amazonaws.com"
 
-  # source_arn = "arn:aws:execute-api:${var.myregion}:${var.accountId}:${aws_api_gateway_rest_api.serverless_demos.id}/*/${aws_api_gateway_method.serverless_demos_method.http_method}${aws_api_gateway_resource.serverless_demos_resource.path}"
-  source_arn = data.aws_api_gateway_rest_api.datablock1.execution_arn
+  source_arn = "arn:aws:execute-api:${var.myregion}:${var.accountId}:${aws_api_gateway_rest_api.serverless_demos.id}/*/${aws_api_gateway_method.serverless_demos_method.http_method}${aws_api_gateway_resource.serverless_demos_resource.path}"
+    
+    
+  # source_arn = "arn:aws:execute-api:${var.myregion}:${var.accountId}:${data.aws_api_gateway_rest_api.datablock1.id}/*/${aws_api_gateway_method.serverless_demos_method.http_method}${aws_api_gateway_resource.serverless_demos_resource.path}"
+
 }
 
 
