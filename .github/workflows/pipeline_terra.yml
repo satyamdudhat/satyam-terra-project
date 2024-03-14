@@ -33,7 +33,7 @@ jobs:
 
       - name: Configuration
         run: |
-          chmod +x configure_aws.sh
+          chmod +x scripts/configure_aws.sh
           bash scripts/configure_aws.sh
           
       - name: Terraform init
