@@ -48,11 +48,25 @@ jobs:
       - name: Terraform preplan
         run: terraform plan
       
+
+        # Check if the ECR repository exists
+      - name: Check ECR Repository
+        id: check-ecr
+        run: |
+           if aws ecr describe-repositories --repository-names "satyam_project" --profile satyam &> /dev/null; then
+              echo "ECR repository exists"
+              echo "::set-output name=exists::true"
+           else
+              echo "ECR repository does not exist, create repository"
+              echo "::set-output name=exists::false"
+              terraform apply -auto-approve -target=ECR_Code.tf
+           fi
+
       - name: Run Shell Script
         run: bash scripts/run_command.sh
   
-      - name: Terraform apply plan
-        run: terraform apply -auto-approve
+      # - name: Terraform apply plan
+      #   run: terraform apply -auto-approve
 
       
 
