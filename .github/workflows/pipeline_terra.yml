@@ -42,6 +42,7 @@ jobs:
           chmod +x scripts/aws_configuration.sh
           bash scripts/aws_configuration.sh
           
+          
       - name: Terraform init
         run: terraform init
       
