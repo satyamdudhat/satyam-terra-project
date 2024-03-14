@@ -59,7 +59,9 @@ jobs:
            else
               echo "ECR repository does not exist, create repository"
               echo "::set-output name=exists::false"
-              terraform apply -auto-approve -target=ECR_Code.tf
+              aws ecr create-repository \
+                  --repository-name satyam_project \
+                  --image-tag-mutability MUTABLE
            fi
 
       # - name: Run Shell Script
