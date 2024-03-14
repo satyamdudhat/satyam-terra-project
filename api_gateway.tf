@@ -40,7 +40,7 @@ resource "aws_api_gateway_integration" "integration" {
 resource "aws_lambda_permission" "apigw_lambda" {
   statement_id  = "AllowExecutionFromAPIGateway"
   action        = "lambda:InvokeFunction"
-  function_name = "${aws_lambda_function.satyam_lambda_function.function_name}"
+  function_name = "${aws_lambda_function.satyam_lambda_function.function_name.arn}"
   principal     = "apigateway.amazonaws.com"
 
   source_arn = "arn:aws:execute-api:${aws_api_gateway_rest_api.serverless_demos.id}/*/${aws_api_gateway_method.serverless_demos_method.http_method}${aws_api_gateway_resource.serverless_demos_resource.path}"
