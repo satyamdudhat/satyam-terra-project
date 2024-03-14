@@ -49,7 +49,7 @@ jobs:
           
       
       - name: Configuration
-        run: bash scripts/aws_configuration.sh
+        run: source scripts/aws_configuration.sh
 
       # - name: Terraform init
       #   run: terraform init
