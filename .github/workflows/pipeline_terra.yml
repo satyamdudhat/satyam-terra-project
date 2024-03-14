@@ -1,7 +1,7 @@
 name: Satyam_project
 
 on:
-  workflow_dispatch:  # Allow manual triggering
+  workflow_dispatch:
   push:
     branches:
       - master
@@ -14,8 +14,8 @@ env:
   TF_VAR_accountId: ${{ secrets.AWS_ACCOUNT_ID }}
 
 jobs:
-  terraform-and-build:  # Combined job for Terraform and build
-    runs-on: ubuntu-latest  # Use ARM64 runner
+  terraform-and-build:
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout Repository
