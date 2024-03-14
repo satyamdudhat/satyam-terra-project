@@ -38,11 +38,11 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
       
-      # - name: Terraform init
-      #   run: terraform init
+      - name: Terraform init
+        run: terraform init
 
-      # - name: Terraform preplan
-      #   run: terraform plan
+      - name: Terraform preplan
+        run: terraform plan
       
       # - name: Run Shell Script
       #   run: bash scripts/run_command.sh
