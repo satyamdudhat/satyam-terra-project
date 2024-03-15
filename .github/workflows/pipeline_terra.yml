@@ -46,7 +46,6 @@ jobs:
         run: terraform plan
       
 
-        # Check if the ECR repository exists
       - name: Check ECR Repository
         id: check-ecr
         run: |
@@ -60,16 +59,17 @@ jobs:
                   --repository-name satyam_project \
                   --image-tag-mutability MUTABLE \
                   --profile satyam
-              bash scripts/run_command.sh
           fi
 
       # Apply Terraform configurations, conditionally skipping the ECR configuration if the repository exists
       - name: Terraform Apply
         run: |
           terraform init
-          terraform apply -auto-approve ${ steps.check-ecr.outputs.exists == 'true' ? '-target=aws_ecr_repository.satyam_project' : '' }
-
-
+          if [ "${{ steps.check-ecr.outputs.exists }}" == 'true' ]; then
+              terraform apply -auto-approve
+          else
+              terraform apply -auto-approve -target=aws_ecr_repository.satyam_project
+          fi
 
 
 
