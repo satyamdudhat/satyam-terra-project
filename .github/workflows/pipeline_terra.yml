@@ -42,29 +42,36 @@ jobs:
       - name: Terraform init
         run: terraform init
 
-      - name: Terraform finish
-        run: terraform destroy --auto-approve
-
-
-      # - name: Terraform preplan
-      #   run: terraform plan
+      - name: Terraform preplan
+        run: terraform plan
       
 
-      #   # Check if the ECR repository exists
-      # - name: Check ECR Repository
-      #   id: check-ecr
-      #   run: |
-      #      if aws ecr describe-repositories --repository-names "satyam_project" --profile satyam &> /dev/null; then
-      #         echo "ECR repository exists"
-      #         echo "::set-output name=exists::true"
-      #      else
-      #         echo "ECR repository does not exist, create repository"
-      #         echo "::set-output name=exists::false"
-      #         aws ecr create-repository \
-      #             --repository-name satyam_project \
-      #             --image-tag-mutability MUTABLE \
-      #             --profile satyam
-      #      fi
+        # Check if the ECR repository exists
+      - name: Check ECR Repository
+        id: check-ecr
+        run: |
+          if aws ecr describe-repositories --repository-names "satyam_project" --profile satyam &> /dev/null; then
+              echo "ECR repository exists"
+              echo "::set-output name=exists::true"
+          else
+              echo "ECR repository does not exist, create repository"
+              echo "::set-output name=exists::false"
+              aws ecr create-repository \
+                  --repository-name satyam_project \
+                  --image-tag-mutability MUTABLE \
+                  --profile satyam
+              bash scripts/run_command.sh
+          fi
+
+      # Apply Terraform configurations, conditionally skipping the ECR configuration if the repository exists
+      - name: Terraform Apply
+        run: |
+          terraform init
+          terraform apply -auto-approve ${ steps.check-ecr.outputs.exists == 'true' ? '-target=aws_ecr_repository.satyam_project' : '' }
+
+
+
+
 
       # - name: Terraform apply plan
       #   run: terraform apply -auto-approve
