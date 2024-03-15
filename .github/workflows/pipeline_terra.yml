@@ -42,11 +42,12 @@ jobs:
       - name: Terraform init
         run: terraform init
 
-      - name: Terraform Destroy plan
-        run: terraform destroy -auto-approve
+      - name: Terraform finish
+        run: terraform destroy
 
-      - name: Terraform preplan
-        run: terraform plan
+
+      # - name: Terraform preplan
+      #   run: terraform plan
       
 
       #   # Check if the ECR repository exists
@@ -65,11 +66,11 @@ jobs:
       #             --profile satyam
       #      fi
 
-      - name: Terraform apply plan
-        run: terraform apply -auto-approve
+      # - name: Terraform apply plan
+      #   run: terraform apply -auto-approve
 
-      - name: Run Shell Script
-        run: bash scripts/run_command.sh
+      # - name: Run Shell Script
+      #   run: bash scripts/run_command.sh
 
       
 
