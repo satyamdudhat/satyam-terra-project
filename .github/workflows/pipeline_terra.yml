@@ -53,8 +53,7 @@ jobs:
               echo "ECR repository exists"
               echo "::set-output name=exists::true"
           else
-              echo "Not Succesfully Created Resources"
-              
+              echo "::set-output name=exists::false"
           fi
 
       # Apply Terraform configurations, conditionally skipping the ECR configuration if the repository exists
