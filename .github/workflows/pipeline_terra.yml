@@ -54,11 +54,7 @@ jobs:
               echo "::set-output name=exists::true"
           else
               echo "ECR repository does not exist, create repository"
-              echo "::set-output name=exists::false"
-              aws ecr create-repository \
-                  --repository-name satyam_project \
-                  --image-tag-mutability MUTABLE \
-                  --profile satyam
+              terraform apply -auto-approve -target=aws_ecr_repository.satyam_project
           fi
 
       # Apply Terraform configurations, conditionally skipping the ECR configuration if the repository exists
@@ -66,9 +62,10 @@ jobs:
         run: |
           terraform init
           if [ "${{ steps.check-ecr.outputs.exists }}" == 'true' ]; then
+              run: bash scripts/run_command.sh
               terraform apply -auto-approve
           else
-              terraform apply -auto-approve -target=aws_ecr_repository.satyam_project
+              echo "Succesfully Created Resources"
           fi
 
 
@@ -77,7 +74,6 @@ jobs:
       #   run: terraform apply -auto-approve
 
       # - name: Run Shell Script
-      #   run: bash scripts/run_command.sh
 
       
 
