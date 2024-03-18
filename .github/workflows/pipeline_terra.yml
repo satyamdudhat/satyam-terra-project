@@ -53,7 +53,7 @@ jobs:
               echo "ECR repository exists"
               echo "::set-output name=exists::true"
           else
-              terraform apply -auto-approve -target=ECR_Code.tf
+              terraform apply -auto-approve ECR_Code.tf
           fi
       
       - name: Push Image in ECR
