@@ -61,7 +61,7 @@ jobs:
       - name: Terraform Apply
         run: |
           if [ "${{ steps.check-ecr.outputs.exists }}" == 'true' ]; then
-              run: bash scripts/run_command.sh
+              bash scripts/run_command.sh
               terraform apply -auto-approve
           else
               echo "Succesfully Created Resources"
