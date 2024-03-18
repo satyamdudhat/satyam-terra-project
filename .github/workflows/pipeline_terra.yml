@@ -60,7 +60,6 @@ jobs:
       # Apply Terraform configurations, conditionally skipping the ECR configuration if the repository exists
       - name: Terraform Apply
         run: |
-          terraform init
           if [ "${{ steps.check-ecr.outputs.exists }}" == 'true' ]; then
               run: bash scripts/run_command.sh
               terraform apply -auto-approve
