@@ -53,7 +53,8 @@ jobs:
               echo "ECR repository exists"
               echo "::set-output name=exists::true"
           else
-              terraform apply -auto-approve 
+              echo "Not Succesfully Created Resources"
+              
           fi
 
       # Apply Terraform configurations, conditionally skipping the ECR configuration if the repository exists
@@ -62,7 +63,7 @@ jobs:
           if [ "${{ steps.check-ecr.outputs.exists }}" == 'true' ]; then
               bash scripts/run_command.sh
           else
-              echo "Succesfully Created Resources"
+              terraform apply -auto-approve 
           fi
 
 
