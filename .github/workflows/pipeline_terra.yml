@@ -67,12 +67,4 @@ jobs:
 
 
 
-      # - name: Terraform apply plan
-      #   run: terraform apply -auto-approve
-
-      # - name: Run Shell Script
-
-      
-
-
       
