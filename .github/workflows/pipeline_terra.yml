@@ -56,7 +56,7 @@ jobs:
               echo "::set-output name=exists::false"
           fi
 
-      # Apply Terraform configurations, conditionally skipping the ECR configuration if the repository exists
+      
       - name: Terraform Apply
         run: |
           if [ "${{ steps.check-ecr.outputs.exists }}" == 'true' ]; then
