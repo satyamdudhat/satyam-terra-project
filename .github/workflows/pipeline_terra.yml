@@ -69,7 +69,6 @@ jobs:
               terraform apply -auto-approve
           else
               terraform apply -auto-approve -target=aws_ecr_repository.satyam_project
-              terraform apply -auto-approve
           fi
 
 
