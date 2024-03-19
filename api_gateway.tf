@@ -131,7 +131,7 @@ resource "aws_lambda_permission" "apigw_lambda1" {
 
   # The /*/* portion grants access from any method on any resource
   # within the API Gateway "REST API".
-  source_arn = "arn:aws:execute-api:${var.myregion}:${var.accountId}:${aws_api_gateway_rest_api.serverless_demos.id}/*/${aws_api_gateway_method.serverless_demos_employee_GET.http_method}${aws_api_gateway_resource.serverless_demos_employee.path}"
+  source_arn = "${aws_api_gateway_rest_api.serverless_demos.execution_arn}/*/${aws_api_gateway_method.serverless_demos_employee_GET.http_method}${aws_api_gateway_resource.serverless_demos_employee.path}"
 }
 
 # ---------------------CoRS Integration employees
@@ -213,7 +213,7 @@ resource "aws_lambda_permission" "apigw_lambda2" {
 
   # The /*/* portion grants access from any method on any resource
   # within the API Gateway "REST API".
-  source_arn = "arn:aws:execute-api:${var.myregion}:${var.accountId}:${aws_api_gateway_rest_api.serverless_demos.id}/*/${aws_api_gateway_method.serverless_demos_employee_GET1.http_method}${aws_api_gateway_resource.serverless_demos_employee.path}"
+  source_arn = "${aws_api_gateway_rest_api.serverless_demos.execution_arn}/*/${aws_api_gateway_method.serverless_demos_employee_GET1.http_method}${aws_api_gateway_resource.serverless_demos_employee.path}"
 }
 
 # ---------------------CoRS Integration employees
@@ -291,7 +291,7 @@ resource "aws_lambda_permission" "apigw_lambda3" {
 
   # The /*/* portion grants access from any method on any resource
   # within the API Gateway "REST API".
-  source_arn = "arn:aws:execute-api:${var.myregion}:${var.accountId}:${aws_api_gateway_rest_api.serverless_demos.id}/*/${aws_api_gateway_method.serverless_demos_employee_GET2.http_method}${aws_api_gateway_resource.serverless_demos_employee.path}"
+  source_arn = "${aws_api_gateway_rest_api.serverless_demos.execution_arn}/*/${aws_api_gateway_method.serverless_demos_employee_GET2.http_method}${aws_api_gateway_resource.serverless_demos_employee.path}"
 }
 
 # ---------------------CoRS Integration employees
@@ -380,7 +380,7 @@ resource "aws_lambda_permission" "apigw_lambda4" {
 
   # The /*/* portion grants access from any method on any resource
   # within the API Gateway "REST API".
-  source_arn = "arn:aws:execute-api:${var.myregion}:${var.accountId}:${aws_api_gateway_rest_api.serverless_demos.id}/*/${aws_api_gateway_method.serverless_demos_employee_GET3.http_method}${aws_api_gateway_resource.serverless_demos_employee.path}"
+  source_arn = "${aws_api_gateway_rest_api.serverless_demos.execution_arn}/*/${aws_api_gateway_method.serverless_demos_employee_GET3.http_method}${aws_api_gateway_resource.serverless_demos_employee.path}"
 }
 
 # ---------------------CoRS Integration employees
@@ -517,7 +517,7 @@ resource "aws_lambda_permission" "apigw_lambda5" {
 
   # The /*/* portion grants access from any method on any resource
   # within the API Gateway "REST API".
-  source_arn = "arn:aws:execute-api:${var.myregion}:${var.accountId}:${aws_api_gateway_rest_api.serverless_demos.id}/*/${aws_api_gateway_method.serverless_demos_employee_GET4.http_method}${aws_api_gateway_resource.serverless_demos_employees.path}"
+  source_arn = "${aws_api_gateway_rest_api.serverless_demos.execution_arn}/*/${aws_api_gateway_method.serverless_demos_employee_GET4.http_method}${aws_api_gateway_resource.serverless_demos_employees.path}"
 }
 
 

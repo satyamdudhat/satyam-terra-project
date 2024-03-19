@@ -1,7 +1,6 @@
 name: Satyam_project
 
 on:
-  workflow_dispatch:
   push:
     branches:
       - master
