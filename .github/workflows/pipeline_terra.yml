@@ -8,7 +8,6 @@ on:
     types: [opened, closed]
     branches:
       - master
-      - dev
     
 env:
   TF_VAR_profile: "satyam"
@@ -108,7 +107,6 @@ jobs:
 
   push-and-job:
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/dev'
     steps:
       - name: Simple-print
         run: echo "Hello I am Push"
