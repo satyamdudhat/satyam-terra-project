@@ -47,10 +47,35 @@ jobs:
       
     
 
+
+
+
   terraform-apply-final:
       if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.base.ref == 'master' && github.event.pull_request.merged == true && github.event.pull_request.merged_by != null
       runs-on: ubuntu-latest
       steps:
+        - name: Checkout Repository
+          uses: actions/checkout@v2
+
+        - name: Install Terraform
+          uses: hashicorp/setup-terraform@v1
+          with:
+            terraform_version: 1.7.0
+
+        - name: Set up environment
+          run: bash scripts/aws_configuration.sh
+          env:
+            AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+            AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+            AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
+            AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
+            AWS_PROFILE: ${{ secrets.AWS_PROFILE }}
+
+
+        - name: Terraform init
+          run: terraform init
+      
+        
         - name: Check ECR Repository
           id: check-ecr
           run: |
@@ -68,8 +93,10 @@ jobs:
             AWS_ACCOUNT_ID: ${{secrets.AWS_ACCOUNT_ID}}
             AWS_PROFILE: ${{secrets.AWS_PROFILE}}
         
-
         
+        - name: Terraform preplan
+          run: terraform plan
+  
         - name: Terraform Apply
           run: terraform apply -auto-approve
 
