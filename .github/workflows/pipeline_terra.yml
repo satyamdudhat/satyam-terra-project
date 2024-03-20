@@ -2,9 +2,10 @@ name: Satyam_project
 
 on:
   pull_request:
-    types: [closed]
+    types: [opened, closed]
     branches:
       - master
+      - dev
 
 env:
   TF_VAR_profile: "satyam"
@@ -15,6 +16,7 @@ env:
 
 jobs:
   terraform-and-build:
+    if: github.event.action != 'closed' && github.event.pull_request.base.ref == 'master'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
@@ -29,67 +31,72 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y awscli
-
       - name: Set up environment
         run: bash scripts/aws_configuration.sh
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
-          AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
-          AWS_PROFILE: ${{ secrets.AWS_PROFILE }}
+          AWS_ACCOUNT_ID: ${{secrets.AWS_ACCOUNT_ID}}
+          AWS_PROFILE: ${{secrets.AWS_PROFILE}}
       
       - name: Terraform init
         run: terraform init
 
       - name: Terraform preplan
         run: terraform plan
+      
+    
+
+
+
 
   terraform-apply-final:
-    if: github.event.action == 'closed' && github.event.pull_request.merged == true
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
+      if: github.event.action == 'closed' && github.event.pull_request.base.ref == 'master' && github.event.pull_request.merged_by != null
+      runs-on: ubuntu-latest
+      steps:
+        - name: Checkout Repository
+          uses: actions/checkout@v4
 
-      - name: Install Terraform
-        uses: hashicorp/setup-terraform@v3
-        with:
-          terraform_version: 1.7.0
+        - name: Install Terraform
+          uses: hashicorp/setup-terraform@v3
+          with:
+            terraform_version: 1.7.0
 
-      - name: Set up environment
-        run: bash scripts/aws_configuration.sh
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
-          AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
-          AWS_PROFILE: ${{ secrets.AWS_PROFILE }}
+        - name: Set up environment
+          run: bash scripts/aws_configuration.sh
+          env:
+            AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+            AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+            AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
+            AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
+            AWS_PROFILE: ${{ secrets.AWS_PROFILE }}
 
 
-      - name: Terraform init
-        run: terraform init
+        - name: Terraform init
+          run: terraform init
       
         
-      - name: Check ECR Repository
-        id: check-ecr
-        run: |
-          if aws ecr describe-repositories --repository-names "satyam_project" --profile satyam &> /dev/null; then
-              echo "ECR repository exists"
-              echo "::set-output name=exists::true"
-          else
-              terraform apply -auto-approve -target=aws_ecr_repository.satyam_project
-          fi
-      
-      - name: Push Image in ECR
-        run: bash scripts/run_command.sh
-        env:
-          AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
-          AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
-          AWS_PROFILE: ${{ secrets.AWS_PROFILE }}
-      
-      - name: Terraform preplan
-        run: terraform plan
-
-      - name: Terraform Apply
-        run: terraform apply -auto-approve
+        - name: Check ECR Repository
+          id: check-ecr
+          run: |
+            if aws ecr describe-repositories --repository-names "satyam_project" --profile satyam &> /dev/null; then
+                echo "ECR repository exists"
+                echo "::set-output name=exists::true"
+            else
+                terraform apply -auto-approve -target=aws_ecr_repository.satyam_project
+            fi
+        
+        - name: Push Image in ECR
+          run: bash scripts/run_command.sh
+          env:
+            AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
+            AWS_ACCOUNT_ID: ${{secrets.AWS_ACCOUNT_ID}}
+            AWS_PROFILE: ${{secrets.AWS_PROFILE}}
+        
+        
+        - name: Terraform preplan
+          run: terraform plan
+  
+        - name: Terraform Apply
+          run: terraform apply -auto-approve
