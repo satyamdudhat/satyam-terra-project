@@ -50,7 +50,7 @@ jobs:
 
 
   terraform-apply-final:
-      if: github.event.merge == 'closed' && github.event.pull_request.base.ref == 'master' && github.event.pull_request.merged_by != null
+      if: github.event.action == 'closed' && github.event.pull_request.base.ref == 'master' && github.event.pull_request.merged_by != null
       runs-on: ubuntu-latest
       steps:
         - name: Checkout Repository
