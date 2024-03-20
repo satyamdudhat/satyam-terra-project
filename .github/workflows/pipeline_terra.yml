@@ -2,7 +2,6 @@ name: Satyam_project
 
 on:
   pull_request:
-    types: [opened, synchronize, reopened, ready_for_review, unlabeled]
     branches:
       - master
       - dev
@@ -49,9 +48,8 @@ jobs:
     
 
   terraform-apply-final:
-      if: github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'master' && github.event.pull_request.merged_by != null
+      if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.base.ref == 'master' && github.event.pull_request.merged == true && github.event.pull_request.merged_by != null
       runs-on: ubuntu-latest
-      needs: terraform-and-build
       steps:
         - name: Check ECR Repository
           id: check-ecr
