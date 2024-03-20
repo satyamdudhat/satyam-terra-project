@@ -1,8 +1,11 @@
 name: Satyam_project
 
 on:
+  push:
+    branches:
+      - dev
   pull_request:
-    types: [opened]
+    types: [opened, closed]
     branches:
       - master
       - dev
@@ -100,3 +103,12 @@ jobs:
   
         - name: Terraform Apply
           run: terraform apply -auto-approve
+
+
+
+  push-and-job:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/dev'
+    steps:
+      - name: Simple-print
+        run: echo "Hello I am Push"
