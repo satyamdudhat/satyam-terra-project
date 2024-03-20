@@ -3,6 +3,9 @@ name: Satyam_project
 on:
   pull_request:
     types: [opened, closed]
+    branches:
+      - master
+      - dev
     
 env:
   TF_VAR_profile: "satyam"
@@ -13,6 +16,7 @@ env:
 
 jobs:
   terraform-and-build:
+    if: github.event.action == 'opened'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
@@ -48,7 +52,7 @@ jobs:
 
 
   terraform-apply-final:
-      if: github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'master' && github.event.pull_request.merged_by != null
+      if: github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'master' 
       runs-on: ubuntu-latest
       steps:
         - name: Checkout Repository
@@ -57,7 +61,7 @@ jobs:
         - name: Install Terraform
           uses: hashicorp/setup-terraform@v3
           with:
-            terraform_version: 1.7.0
+            terraform_version: 1.7.0s
 
         - name: Set up environment
           run: bash scripts/aws_configuration.sh
