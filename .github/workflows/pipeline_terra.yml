@@ -16,7 +16,6 @@ env:
 
 jobs:
   terraform-and-build:
-    if: github.event.action != 'closed' && github.event.pull_request.base.ref == 'master'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
