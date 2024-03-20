@@ -54,7 +54,6 @@ jobs:
 
 
   terraform-apply-final:
-      if: github.event.action == 'closed'
       runs-on: ubuntu-latest
       steps:
         - name: Checkout Repository
