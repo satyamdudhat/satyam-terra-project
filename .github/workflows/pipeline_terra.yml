@@ -2,7 +2,7 @@ name: Satyam_project
 
 on:
   pull_request:
-    types: [opened, synchronize, reopened, ready_for_review, unlabeled, closed]
+    types: [opened, synchronize, reopened, ready_for_review, unlabeled]
     branches:
       - master
       - dev
@@ -48,5 +48,31 @@ jobs:
       
     
 
+  terraform-apply-final:
+      if: github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'master' && github.event.pull_request.merged_by != null
+      runs-on: ubuntu-latest
+      needs: terraform-and-build
+      steps:
+        - name: Check ECR Repository
+          id: check-ecr
+          run: |
+            if aws ecr describe-repositories --repository-names "satyam_project" --profile satyam &> /dev/null; then
+                echo "ECR repository exists"
+                echo "::set-output name=exists::true"
+            else
+                terraform apply -auto-approve -target=aws_ecr_repository.satyam_project
+            fi
+        
+        - name: Push Image in ECR
+          run: bash scripts/run_command.sh
+          env:
+            AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
+            AWS_ACCOUNT_ID: ${{secrets.AWS_ACCOUNT_ID}}
+            AWS_PROFILE: ${{secrets.AWS_PROFILE}}
+        
+
+        
+        - name: Terraform Apply
+          run: terraform apply -auto-approve
 
       
