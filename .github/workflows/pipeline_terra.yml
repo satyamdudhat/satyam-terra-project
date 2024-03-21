@@ -3,12 +3,12 @@ name: Satyam_project
 on:
   push:
     branches:
-       - dev
+       - master
       
   pull_request:
     types: [opened, closed]
     branches:
-      - dev
+      - master
     
 env:
   TF_VAR_profile: "satyam"
