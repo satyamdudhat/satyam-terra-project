@@ -3,14 +3,12 @@ name: Satyam_project
 on:
   push:
     branches:
-      - dev
-    paths:
-      - '**.tf'
+       - dev
       
   pull_request:
     types: [opened, closed]
     branches:
-      - master
+      - dev
     
 env:
   TF_VAR_profile: "satyam"
@@ -55,6 +53,7 @@ jobs:
 
 
 
+        
 
   terraform-apply-final:
       if: github.event.pull_request.merged == true 
@@ -108,7 +107,8 @@ jobs:
 
 
   push-and-job:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest 
+    if: github.event_name == 'push'
     steps:
       - name: Simple-print
-        run: echo "Hello I am Push"
+        run: echo "Hello I am Push Event"
