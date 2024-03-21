@@ -3,7 +3,7 @@ name: Satyam_project
 on:
   push:
     branches:
-       - dev1
+       - dev
       
   pull_request:
     types: [opened, closed]
