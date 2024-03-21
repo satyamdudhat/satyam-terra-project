@@ -3,7 +3,7 @@ name: Satyam_project
 on:
   push:
     branches:
-       - dev
+       - dev1
       
   pull_request:
     types: [opened, closed]
@@ -54,7 +54,7 @@ jobs:
 
 
         
-        
+
   terraform-apply-final:
       if: github.event.pull_request.merged == true 
       runs-on: ubuntu-latest
