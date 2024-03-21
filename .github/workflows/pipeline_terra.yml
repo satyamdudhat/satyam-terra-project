@@ -3,13 +3,13 @@ name: Satyam_project
 on:
   push:
     branches:
-      - dev
+      - dev1
 
 
   pull_request:
     types: [opened, closed]
     branches:
-      - master
+      - dev
     
 env:
   TF_VAR_profile: "satyam"
@@ -104,7 +104,6 @@ jobs:
   
         - name: Terraform Apply
           run: terraform apply -auto-approve
-
 
 
   push-and-job:
