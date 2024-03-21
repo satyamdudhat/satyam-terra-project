@@ -4,7 +4,8 @@ on:
   push:
     branches:
       - dev
-
+    paths:
+      - '**.tf'
 
   pull_request:
     types: [opened, closed]
