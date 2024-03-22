@@ -64,7 +64,7 @@ jobs:
           echo "Pull Request created by: ${{ github.event.pull_request.user.login }}"
 
           before_sha=$(git rev-parse ${{ github.event.pull_request.base.sha }})
-          after_sha=$(git rev-parse HEAD)
+          after_sha=$(git rev-parse ${{ github.event.pull_request.head.sha }})
 
           echo "Files changed in this pull request:"
           git diff --name-only $before_sha $after_sha
