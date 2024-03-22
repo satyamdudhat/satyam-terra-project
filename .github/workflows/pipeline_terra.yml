@@ -17,9 +17,9 @@ env:
   TF_VAR_api_name: "serverless_demos"
   TF_VAR_accountId: ${{ secrets.AWS_ACCOUNT_ID }}
 
-
 jobs:
-  common-setup:
+  terraform-and-build:
+    if: github.event.action == 'opened'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
@@ -43,34 +43,49 @@ jobs:
           AWS_ACCOUNT_ID: ${{secrets.AWS_ACCOUNT_ID}}
           AWS_PROFILE: ${{secrets.AWS_PROFILE}}
       
-      - name: Terraform Initalize
+      - name: Terraform init
         run: terraform init
 
       - name: Terraform preplan
         run: terraform plan
-
-     
       
     
-  terraform-build:
-    if: github.event.action == 'opened'
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
 
-      - name: Print Pull Request Information
-        run: |
-          echo "Pull Request created by: ${{ github.event.pull_request.user.login }}"
+
+
         
 
   terraform-apply-final:
       if: github.event.pull_request.merged == true 
       runs-on: ubuntu-latest
-      needs: common-setup
       steps:
+        - name: Checkout Repository
+          uses: actions/checkout@v4
+
+        - name: Install Terraform
+          uses: hashicorp/setup-terraform@v3
+          with:
+            terraform_version: 1.7.0
+        
+        - name: Install AWS CLI
+          run: |
+              sudo apt-get update
+              sudo apt-get install -y awscli
+
+        - name: Set up environment
+          run: bash scripts/aws_configuration.sh
+          env:
+            AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+            AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+            AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
+            AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
+            AWS_PROFILE: ${{ secrets.AWS_PROFILE }}
+
+
+        - name: Terraform init
+          run: terraform init
+      
+        
         - name: Check ECR Repository
           id: check-ecr
           run: |
@@ -87,6 +102,10 @@ jobs:
             AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
             AWS_ACCOUNT_ID: ${{secrets.AWS_ACCOUNT_ID}}
             AWS_PROFILE: ${{secrets.AWS_PROFILE}}
+        
+        
+        - name: Terraform preplan
+          run: terraform plan
   
         - name: Terraform Apply
           run: terraform apply -auto-approve
@@ -97,4 +116,4 @@ jobs:
     if: github.event_name == 'push'
     steps:
       - name: Simple-print
-        run: echo "Successfully Pushed Code"
+        run: echo "Hello I am Push Event"
