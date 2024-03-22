@@ -62,8 +62,12 @@ jobs:
       - name: Print Pull Request Information
         run: |
           echo "Pull Request created by: ${{ github.event.pull_request.user.login }}"
+
+          before_sha=$(git rev-parse ${{ github.event.pull_request.base.sha }})
+          after_sha=$(git rev-parse HEAD)
+
           echo "Files changed in this pull request:"
-          git diff --no-index --name-only ${{ github.event.before }} ${{ github.event.after }}
+          git diff --name-only $before_sha $after_sha
 
 
         
