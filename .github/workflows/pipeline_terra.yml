@@ -56,6 +56,9 @@ jobs:
     if: github.event.action == 'opened'
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        
       - name: Print Pull Request Information
         run: |
           echo "Pull Request created by: ${{ github.event.pull_request.user.login }}"
