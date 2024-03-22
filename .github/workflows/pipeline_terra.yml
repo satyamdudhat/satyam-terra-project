@@ -58,12 +58,12 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
-        
+
       - name: Print Pull Request Information
         run: |
           echo "Pull Request created by: ${{ github.event.pull_request.user.login }}"
           echo "Files changed in this pull request:"
-          git diff --name-only ${{ github.event.before }} ${{ github.event.after }}
+          git diff --no-index --name-only ${{ github.event.before }} ${{ github.event.after }}
 
 
         
