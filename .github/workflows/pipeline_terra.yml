@@ -66,6 +66,11 @@ jobs:
           uses: hashicorp/setup-terraform@v3
           with:
             terraform_version: 1.7.0
+        
+        - name: Install AWS CLI
+          run: |
+              sudo apt-get update
+              sudo apt-get install -y awscli
 
         - name: Set up environment
           run: bash scripts/aws_configuration.sh
