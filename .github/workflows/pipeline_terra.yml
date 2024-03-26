@@ -111,6 +111,7 @@ jobs:
 
 
   push-and-job:
+    if: github.event_name == 'push'
     runs-on: ubuntu-latest 
     steps:
       - name: Simple-print
