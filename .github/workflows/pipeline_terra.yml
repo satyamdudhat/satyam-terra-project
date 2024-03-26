@@ -106,6 +106,7 @@ jobs:
             AWS_PROFILE: ${{secrets.AWS_PROFILE}}
         
         
+            
         - name: Terraform preplan
           run: terraform plan
   
