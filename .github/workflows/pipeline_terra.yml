@@ -2,7 +2,9 @@ name: Satyam_project
 
 on:
   push:
-      
+    branches:
+      - master
+    
   pull_request:
     types: [opened, closed]
     branches:
@@ -16,10 +18,10 @@ env:
   TF_VAR_accountId: ${{ secrets.AWS_ACCOUNT_ID }}
 
 
-  
+
 jobs:
   terraform-and-build:
-    if: github.event.action == 'opened'
+    if: github.event.action == 'opened' 
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
@@ -56,7 +58,7 @@ jobs:
         
 
   terraform-apply-final:
-      if: github.event.pull_request.merged == true 
+      if: github.event.pull_request.merged == true || github.event_name == 'push'
       runs-on: ubuntu-latest
       steps:
         - name: Checkout Repository
@@ -109,12 +111,3 @@ jobs:
   
         - name: Terraform Apply
           run: terraform apply -auto-approve
-
-
-
-  push-and-job:
-    if: github.event_name == 'push'
-    runs-on: ubuntu-latest 
-    steps:
-      - name: Simple-print
-        run: echo "Hello is Push Event"
