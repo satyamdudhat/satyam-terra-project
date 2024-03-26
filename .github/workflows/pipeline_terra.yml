@@ -76,7 +76,7 @@ jobs:
         - name: Set up environment
           run: bash scripts/aws_configuration.sh
 
-          
+
         - name: Terraform init and Terraform preplan
           run: |
             terraform init
@@ -90,12 +90,8 @@ jobs:
         
         - name: Push Image in ECR
           run: bash scripts/image_push_code.sh
-          env:
-            AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
-            AWS_ACCOUNT_ID: ${{secrets.AWS_ACCOUNT_ID}}
-            AWS_PROFILE: ${{secrets.AWS_PROFILE}}
-        
 
+          
         - name: Terraform Apply
           run: terraform apply -auto-approve
 
