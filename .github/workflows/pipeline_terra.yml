@@ -104,8 +104,6 @@ jobs:
             AWS_ACCOUNT_ID: ${{secrets.AWS_ACCOUNT_ID}}
             AWS_PROFILE: ${{secrets.AWS_PROFILE}}
         
-        
-
         - name: Terraform preplan
           run: terraform plan
   
