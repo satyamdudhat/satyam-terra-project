@@ -117,4 +117,4 @@ jobs:
     runs-on: ubuntu-latest 
     steps:
       - name: Simple-print
-        run: echo "Hello this is Push Event"
+        run: echo "Hello this is a Push Event"
