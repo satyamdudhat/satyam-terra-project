@@ -89,16 +89,11 @@ jobs:
         
         - name: Check ECR Repository
           id: check-ecr
-          run: |
-            if aws ecr describe-repositories --repository-names "satyam_project" --profile satyam &> /dev/null; then
-                echo "ECR repository exists"
-                echo "::set-output name=exists::true"
-            else
-                terraform apply -auto-approve -target=aws_ecr_repository.satyam_project
-            fi
+          run: bash scripts/ecr_repo_check.sh
+            
         
         - name: Push Image in ECR
-          run: bash scripts/run_command.sh
+          run: bash scripts/image_push_code.sh
           env:
             AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
             AWS_ACCOUNT_ID: ${{secrets.AWS_ACCOUNT_ID}}
