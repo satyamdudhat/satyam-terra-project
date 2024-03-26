@@ -21,53 +21,37 @@ env:
   AWS_ACCOUNT_ID: ${{secrets.AWS_ACCOUNT_ID}}
   AWS_PROFILE: ${{secrets.AWS_PROFILE}}
 
+
+  
 jobs:
-  common-steps:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
-
-      - name: Install Terraform
-        uses: hashicorp/setup-terraform@v3
-        with:
-          terraform_version: 1.7.0
-
-      - name: Install AWS CLI
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y awscli
-
-      - name: Set up environment
-        run: bash scripts/aws_configuration.sh
-
-      - name: Terraform init and Terraform preplan
-        run: |
-          terraform init
-          terraform plan
-
-
   terraform-and-build:
     if: github.event_name == 'pull_request'
-    needs: common-steps
     runs-on: ubuntu-latest
     steps:
-      - name: Terraform Apply
-        run: terraform apply -auto-approve
-
-
-        
+      - name: Common Configure
+        uses: ./github/workflows/common_terraform_steps.yml
+      
+    
   terraform-apply-final:
-    if: github.event_name == 'push'
-    needs: common-steps
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check ECR Repository
-        id: check-ecr
-        run: bash scripts/ecr_repo_check.sh
+      if: github.event_name == 'push'
+      runs-on: ubuntu-latest
+      steps:
+        - name: Common Configure
+          uses: ./github/workflows/common_terraform_steps.yml
+            
+          
+        
+        - name: Check ECR Repository
+          id: check-ecr
+          run: bash scripts/ecr_repo_check.sh
+            
+        
+        - name: Push Image in ECR
+          run: bash scripts/image_push_code.sh
 
-      - name: Push Image in ECR
-        run: bash scripts/image_push_code.sh
 
-      - name: Terraform Apply
-        run: terraform apply -auto-approve
+        - name: Terraform Apply
+          run: terraform apply -auto-approve
+
+
+

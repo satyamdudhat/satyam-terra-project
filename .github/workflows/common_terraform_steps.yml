@@ -1,0 +1,31 @@
+name: Common Terraform Steps
+
+on:
+    workflow_call:
+                        
+jobs:
+  Common_Configuration:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Install Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.7.0
+
+      - name: Install AWS CLI
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y awscli
+
+      - name: Set up environment
+        run: bash scripts/aws_configuration.sh
+
+      - name: Terraform init
+        run: terraform init
+      
+      - name: Terraform preplan
+        run: terraform plan
+      
