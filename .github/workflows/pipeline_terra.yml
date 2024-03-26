@@ -111,10 +111,10 @@ jobs:
           run: terraform apply -auto-approve
 
 
-          
+
   push-and-job:
     runs-on: ubuntu-latest 
-    if: github.ref == 'refs/heads/master' && github.event.type == 'push'
+    if: github.event.type == 'push' 
     steps:
       - name: Simple-print
         run: echo "Hello this is Push Event"
