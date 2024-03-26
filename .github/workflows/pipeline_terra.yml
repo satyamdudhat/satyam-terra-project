@@ -113,7 +113,7 @@ jobs:
 
   push-and-job:
     runs-on: ubuntu-latest 
-    if: github.event_name == 'push'
+    if: github.ref == 'refs/heads/master'
     steps:
       - name: Simple-print
         run: echo "Hello I am Push Event"
