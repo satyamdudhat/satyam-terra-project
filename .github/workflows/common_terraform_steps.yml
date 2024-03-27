@@ -3,18 +3,6 @@ name: Common Terraform Steps
 on:
     workflow_call:
 
-env:
-  TF_VAR_profile: "satyam"
-  TF_VAR_ecr_name: "satyam_project"
-  TF_VAR_table_name: "employee_infos"
-  TF_VAR_api_name: "serverless_demos"
-  TF_VAR_accountId: ${{ secrets.AWS_ACCOUNT_ID }}
-  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-  AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
-  AWS_ACCOUNT_ID: ${{secrets.AWS_ACCOUNT_ID}}
-  AWS_PROFILE: ${{secrets.AWS_PROFILE}}
-
 
 jobs:
   Common_Configuration:
@@ -38,6 +26,11 @@ jobs:
 
       - name: Set up environment
         run: bash scripts/aws_configuration.sh
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
+
       
       - name: Terraform init
         run: terraform init
