@@ -19,7 +19,7 @@ jobs:
     if: github.event_name == 'push'
     runs-on: ubuntu-latest
     steps:
-      - uses: ./setup_and_terraform.yml@v1
+      - uses: ../setup_and_terraform.yml@v1
 
       - name: Check ECR Repository
         id: check-ecr
