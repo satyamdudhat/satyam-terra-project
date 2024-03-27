@@ -30,7 +30,7 @@ jobs:
     if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     steps:
-     - uses: ./.github/workflows/common_terraform_steps.yml
+     - uses: satyam-terra-project/.github/workflows/common_terraform_steps.yml
       
 
 
