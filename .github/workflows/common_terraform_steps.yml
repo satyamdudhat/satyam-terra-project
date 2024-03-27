@@ -39,8 +39,4 @@ jobs:
         run: bash scripts/aws_configuration.sh          
       
 
-      - name: Terraform init
-        run: terraform init
-
-      - name: Terraform preplan
-        run:  terraform plan
+      
