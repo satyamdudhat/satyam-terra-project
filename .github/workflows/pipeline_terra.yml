@@ -26,18 +26,34 @@ env:
 jobs:
   terraform-and-build:
     if: github.event_name == 'pull_request'
-    runs-on: ubuntu-latest
-    steps:
-      - name: Common Configure
-        uses: ./github/workflows/common_terraform_steps.yml
+    uses: ./.github/workflows/common_terraform_steps.yml
       
     
   terraform-apply-final:
       if: github.event_name == 'push'
       runs-on: ubuntu-latest
       steps:
-        - name: Common Configure
-          uses: ./github/workflows/common_terraform_steps.yml
+        - name: Checkout Repository
+          uses: actions/checkout@v4
+
+        - name: Install Terraform
+          uses: hashicorp/setup-terraform@v3
+          with:
+            terraform_version: 1.7.0
+        
+        - name: Install AWS CLI
+          run: |
+              sudo apt-get update
+              sudo apt-get install -y awscli
+
+        - name: Set up environment
+          run: bash scripts/aws_configuration.sh
+
+
+        - name: Terraform init and Terraform preplan
+          run: |
+            terraform init
+            terraform plan
             
           
         
