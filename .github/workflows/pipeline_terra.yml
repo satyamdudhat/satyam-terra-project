@@ -31,7 +31,7 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - uses: ./.github/workflows/common_configuration
+      - uses: ./.github/workflows/common_configuration.yml
       
       
     
