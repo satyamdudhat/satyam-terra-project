@@ -27,26 +27,26 @@ jobs:
       AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
 
 
-
   terraform-apply-final:
-      if: github.event_name == 'push'
-      runs-on: ubuntu-latest
-      steps:
-        - name: Configuration
-          uses: satyam-terra-project/.github/workflows/common_terraform_steps.yml
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
 
-        - name: Check ECR Repository
-          id: check-ecr
-          run: bash scripts/ecr_repo_check.sh
-            
-        
-        - name: Push Image in ECR
-          run: bash scripts/image_push_code.sh
+      - name: Configuration
+        uses: ./.github/workflows/common_terraform_steps.yml
+
+      - name: Check ECR Repository
+        id: check-ecr
+        run: bash scripts/ecr_repo_check.sh
+          
+      - name: Push Image in ECR
+        run: bash scripts/image_push_code.sh
+
+      - name: Terraform Apply
+        run: terraform apply -auto-approve
 
 
-        - name: Terraform Apply
-          run: terraform apply -auto-approve
 
-
-
-  
+    
