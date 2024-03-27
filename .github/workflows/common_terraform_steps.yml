@@ -2,6 +2,10 @@ name: Common Terraform Steps
 
 on:
     workflow_call:
+      secrets:
+        AWS_ACCESS_KEY_ID:
+        AWS_SECRET_ACCESS_KEY:
+        AWS_DEFAULT_REGION:      
 
 env:
   TF_VAR_profile: "satyam"
