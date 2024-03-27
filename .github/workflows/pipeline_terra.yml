@@ -28,9 +28,7 @@ env:
 jobs:
   terraform-and-build:
     if: github.event_name == 'pull_request'
-    runs-on: ubuntu-latest
-    steps:
-     - uses: satyam-terra-project/.github/workflows/common_terraform_steps.yml
+    uses: satyam-terra-project/.github/workflows/common_terraform_steps.yml
       
 
 
