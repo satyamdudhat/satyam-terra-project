@@ -13,10 +13,11 @@ jobs:
   terraform-and-build:
     if: github.event_name == 'pull_request'
     uses: ./.github/workflows/common_terraform_steps.yml
+      
 
 
 
-    
+
   terraform-apply-final:
       if: github.event_name == 'push'
       runs-on: ubuntu-latest
