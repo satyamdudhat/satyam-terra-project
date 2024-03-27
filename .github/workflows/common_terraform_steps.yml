@@ -10,7 +10,14 @@ on:
         AWS_DEFAULT_REGION:
           required: true
 
+env:
+  TF_VAR_profile: "satyam"
+  TF_VAR_ecr_name: "satyam_project"
+  TF_VAR_table_name: "employee_infos"
+  TF_VAR_api_name: "serverless_demos"
+  TF_VAR_accountId: ${{ secrets.AWS_ACCOUNT_ID }}
 
+  
 jobs:
   Common_Configuration:
     runs-on: ubuntu-latest
@@ -38,9 +45,7 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
     
-    
-
-      
+          
       - name: Terraform init
         run: terraform init
       
