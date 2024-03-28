@@ -5,14 +5,15 @@ on:
      
 
 jobs:
-    common:
-        steps:
-            - name: Install Terraform
-              uses: hashicorp/setup-terraform@v3
-              with:
-                terraform_version: 1.7.0
+  common:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.7.0
 
-            - name: Install AWS CLI
-              run: |
-                sudo apt-get update
-                sudo apt-get install -y awscli
+      - name: Install AWS CLI
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y awscli
