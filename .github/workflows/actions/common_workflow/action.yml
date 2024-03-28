@@ -2,32 +2,28 @@ name: Satyam_project
 
 on:
   workflow_call:
-    inputs:
+    secrets:
       AWS_ACCESS_KEY_ID:
-        description: 'AWS Access Key ID'
-        required: true
       AWS_SECRET_ACCESS_KEY:
-        description: 'AWS Secret Access Key'
-        required: true
       AWS_DEFAULT_REGION:
-        description: 'AWS Default Region'
-        required: true
       TF_VAR_accountId:
-        description: 'AWS Account Id'
-        required: true
+
 
 env:
     TF_VAR_profile: "satyam"
     TF_VAR_ecr_name: "satyam_project"
     TF_VAR_table_name: "employee_infos"
     TF_VAR_api_name: "serverless_demos"
-    TF_VAR_accountId: ${{ inputs.AWS_ACCOUNT_ID }}
+    TF_VAR_accountId: ${{ secrets.AWS_ACCOUNT_ID }}
     
 
 jobs:
     common:
         runs-on: ubuntu-latest
         steps:
+            - name: Checkout Repository
+              uses: actions/checkout@v3
+
             - name: Install Terraform
               uses: hashicorp/setup-terraform@v3
               with:
@@ -41,9 +37,9 @@ jobs:
             - name: Set up environment
               run: bash scripts/aws_configuration.sh
               env:
-                AWS_ACCESS_KEY_ID: ${{ inputs.AWS_ACCESS_KEY_ID }}
-                AWS_SECRET_ACCESS_KEY: ${{ inputs.AWS_SECRET_ACCESS_KEY }}
-                AWS_DEFAULT_REGION: ${{ inputs.AWS_DEFAULT_REGION }}
+                AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+                AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+                AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
             
 
             - name: Terraform init
