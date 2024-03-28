@@ -96,25 +96,49 @@ resource "aws_api_gateway_integration_response" "integration_response1" {
 
 
 #---------------------------------------------Employee Resource Code--------------------------------------------------------------------------------------------
-resource "aws_api_gateway_resource" "employee" {
+resource "aws_api_gateway_resource" "serverless_demos_employee" {
   rest_api_id = "${aws_api_gateway_rest_api.serverless_demos.id}"
   parent_id   = "${aws_api_gateway_rest_api.serverless_demos.root_resource_id}"
   path_part   = var.endpoint_path_employee
 }
 
-resource "aws_api_gateway_method" "employee_method" {
-  for_each = toset(["GET", "POST", "DELETE", "PATCH"])
+
+
+#---------------------------- post Method 
+resource "aws_api_gateway_method" "serverless_demos_employee_GET" {
   rest_api_id   = "${aws_api_gateway_rest_api.serverless_demos.id}"
-  resource_id   = "${aws_api_gateway_resource.employee.id}"
-  http_method   = each.key
+  resource_id   = "${aws_api_gateway_resource.serverless_demos_employee.id}"
+  http_method   = "POST"
   authorization = "NONE"
 }
 
-# Define CORS logic once
-resource "aws_api_gateway_method_response" "cors_method_response" {
+resource "aws_api_gateway_integration" "integration1" {
   rest_api_id = "${aws_api_gateway_rest_api.serverless_demos.id}"
-  resource_id = "${aws_api_gateway_resource.employee.id}"
-  http_method = "*"  # applies to all methods
+  resource_id   = "${aws_api_gateway_resource.serverless_demos_employee.id}"
+  http_method = "${aws_api_gateway_method.serverless_demos_employee_GET.http_method}"
+  integration_http_method = "POST"
+  type                    = "AWS_PROXY"
+  uri                     = "${aws_lambda_function.satyam_lambda_function.invoke_arn}"
+}
+
+
+# Lambda Permission Code
+resource "aws_lambda_permission" "apigw_lambda1" {
+  statement_id  = "AllowExecutionFromAPIGatewayGET"
+  action        = "lambda:InvokeFunction"
+  function_name = "${aws_lambda_function.satyam_lambda_function.function_name}"
+  principal     = "apigateway.amazonaws.com"
+
+  # The /*/* portion grants access from any method on any resource
+  # within the API Gateway "REST API".
+  source_arn = "${aws_api_gateway_rest_api.serverless_demos.execution_arn}/*/${aws_api_gateway_method.serverless_demos_employee_GET.http_method}${aws_api_gateway_resource.serverless_demos_employee.path}"
+}
+
+# ---------------------CoRS Integration employees
+resource "aws_api_gateway_method_response" "method_response2" {
+  rest_api_id = "${aws_api_gateway_rest_api.serverless_demos.id}"
+  resource_id   = "${aws_api_gateway_resource.serverless_demos_employee.id}"
+  http_method = "${aws_api_gateway_method.serverless_demos_employee_GET.http_method}"
   status_code = "200"
 
   response_parameters = {
@@ -122,38 +146,268 @@ resource "aws_api_gateway_method_response" "cors_method_response" {
   }
 }
 
-resource "aws_api_gateway_integration_response" "cors_integration_response" {
+resource "aws_api_gateway_integration_response" "integration_response2" {
   rest_api_id = "${aws_api_gateway_rest_api.serverless_demos.id}"
-  resource_id = "${aws_api_gateway_resource.employee.id}"
-  http_method = "*"  # applies to all methods
+  resource_id   = "${aws_api_gateway_resource.serverless_demos_employee.id}"
+  http_method = "${aws_api_gateway_method.serverless_demos_employee_GET.http_method}"
   status_code = "200"
 
   response_parameters = {
     "method.response.header.Access-Control-Allow-Origin" = "'*'"
   }
+  depends_on = [aws_api_gateway_integration.integration1]
+}
+# -------------End Of Cors Integration
+# ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#---------------------------- Get Method 
+resource "aws_api_gateway_method" "serverless_demos_employee_GET1" {
+  rest_api_id   = "${aws_api_gateway_rest_api.serverless_demos.id}"
+  resource_id   = "${aws_api_gateway_resource.serverless_demos_employee.id}"
+  http_method   = "GET"
+  authorization = "NONE"
 }
 
-# Define Lambda Integration with reusable CORS
-resource "aws_api_gateway_integration" "integration1" {
-  for_each = toset(["GET", "POST", "DELETE", "PATCH"])
+resource "aws_api_gateway_integration" "integration2" {
   rest_api_id = "${aws_api_gateway_rest_api.serverless_demos.id}"
-  resource_id   = "${aws_api_gateway_resource.employee.id}"
-  http_method = each.key
+  resource_id   = "${aws_api_gateway_resource.serverless_demos_employee.id}"
+  http_method = "${aws_api_gateway_method.serverless_demos_employee_GET1.http_method}"
   integration_http_method = "POST"
   type                    = "AWS_PROXY"
   uri                     = "${aws_lambda_function.satyam_lambda_function.invoke_arn}"
-  depends_on             = [aws_api_gateway_integration_response.cors_integration_response]
 }
 
-# Lambda Permission (reference each integration)
-resource "aws_lambda_permission" "lambda_permission" {
-  for_each = toset(["GET", "POST", "DELETE", "PATCH"])
-  statement_id  = "AllowExecutionFromAPIGateway_${each.key}"
+
+# Lambda Permission Code
+resource "aws_lambda_permission" "apigw_lambda2" {
+  statement_id  = "AllowExecutionFromAPIGatewayGET1"
   action        = "lambda:InvokeFunction"
   function_name = "${aws_lambda_function.satyam_lambda_function.function_name}"
   principal     = "apigateway.amazonaws.com"
-  source_arn = "${aws_api_gateway_rest_api.serverless_demos.execution_arn}/*/${each.key}${aws_api_gateway_resource.employee.path}"
+
+  # The /*/* portion grants access from any method on any resource
+  # within the API Gateway "REST API".
+  source_arn = "${aws_api_gateway_rest_api.serverless_demos.execution_arn}/*/${aws_api_gateway_method.serverless_demos_employee_GET1.http_method}${aws_api_gateway_resource.serverless_demos_employee.path}"
 }
+
+# ---------------------CoRS Integration employees
+resource "aws_api_gateway_method_response" "method_response3" {
+ rest_api_id = "${aws_api_gateway_rest_api.serverless_demos.id}"
+  resource_id   = "${aws_api_gateway_resource.serverless_demos_employee.id}"
+  http_method = "${aws_api_gateway_method.serverless_demos_employee_GET1.http_method}"
+  status_code = "200"
+
+  response_parameters = {
+    "method.response.header.Access-Control-Allow-Origin" = true
+  }
+}
+
+resource "aws_api_gateway_integration_response" "integration_response3" {
+ rest_api_id = "${aws_api_gateway_rest_api.serverless_demos.id}"
+  resource_id   = "${aws_api_gateway_resource.serverless_demos_employee.id}"
+  http_method = "${aws_api_gateway_method.serverless_demos_employee_GET1.http_method}"
+  status_code = "200"
+
+  response_parameters = {
+    "method.response.header.Access-Control-Allow-Origin" = "'*'"
+  }
+  depends_on = [aws_api_gateway_integration.integration2]
+}
+# -------------End Of Cors Integration
+
+
+# ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#---------------------------- Delete Method 
+resource "aws_api_gateway_method" "serverless_demos_employee_GET2" {
+  rest_api_id   = "${aws_api_gateway_rest_api.serverless_demos.id}"
+  resource_id   = "${aws_api_gateway_resource.serverless_demos_employee.id}"
+  http_method   = "DELETE"
+  authorization = "NONE"
+}
+
+resource "aws_api_gateway_integration" "integration3" {
+  rest_api_id = "${aws_api_gateway_rest_api.serverless_demos.id}"
+  resource_id   = "${aws_api_gateway_resource.serverless_demos_employee.id}"
+  http_method = "${aws_api_gateway_method.serverless_demos_employee_GET2.http_method}"
+  integration_http_method = "POST"
+  type                    = "AWS_PROXY"
+  uri                     = "${aws_lambda_function.satyam_lambda_function.invoke_arn}"
+}
+
+
+# Lambda Permission Code
+resource "aws_lambda_permission" "apigw_lambda3" {
+  statement_id  = "AllowExecutionFromAPIGatewayGET2"
+  action        = "lambda:InvokeFunction"
+  function_name = "${aws_lambda_function.satyam_lambda_function.function_name}"
+  principal     = "apigateway.amazonaws.com"
+
+  # The /*/* portion grants access from any method on any resource
+  # within the API Gateway "REST API".
+  source_arn = "${aws_api_gateway_rest_api.serverless_demos.execution_arn}/*/${aws_api_gateway_method.serverless_demos_employee_GET2.http_method}${aws_api_gateway_resource.serverless_demos_employee.path}"
+}
+
+# ---------------------CoRS Integration employees
+resource "aws_api_gateway_method_response" "method_response4" {
+ rest_api_id = "${aws_api_gateway_rest_api.serverless_demos.id}"
+  resource_id   = "${aws_api_gateway_resource.serverless_demos_employee.id}"
+  http_method = "${aws_api_gateway_method.serverless_demos_employee_GET2.http_method}"
+  status_code = "200"
+
+  response_parameters = {
+    "method.response.header.Access-Control-Allow-Origin" = true
+  }
+}
+
+resource "aws_api_gateway_integration_response" "integration_response4" {
+ rest_api_id = "${aws_api_gateway_rest_api.serverless_demos.id}"
+  resource_id   = "${aws_api_gateway_resource.serverless_demos_employee.id}"
+  http_method = "${aws_api_gateway_method.serverless_demos_employee_GET2.http_method}"
+  status_code = "200"
+
+  response_parameters = {
+    "method.response.header.Access-Control-Allow-Origin" = "'*'"
+  }
+  depends_on = [aws_api_gateway_integration.integration3]
+}
+# -------------End Of Cors Integration
+
+
+# ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#---------------------------- PATCH Method 
+resource "aws_api_gateway_method" "serverless_demos_employee_GET3" {
+  rest_api_id   = "${aws_api_gateway_rest_api.serverless_demos.id}"
+  resource_id   = "${aws_api_gateway_resource.serverless_demos_employee.id}"
+  http_method   = "PATCH"
+  authorization = "NONE"
+}
+
+resource "aws_api_gateway_integration" "integration4" {
+  rest_api_id = "${aws_api_gateway_rest_api.serverless_demos.id}"
+  resource_id   = "${aws_api_gateway_resource.serverless_demos_employee.id}"
+  http_method = "${aws_api_gateway_method.serverless_demos_employee_GET3.http_method}"
+  integration_http_method = "POST"
+  type                    = "AWS_PROXY"
+  uri                     = "${aws_lambda_function.satyam_lambda_function.invoke_arn}"
+}
+
+
+# Lambda Permission Code
+resource "aws_lambda_permission" "apigw_lambda4" {
+  statement_id  = "AllowExecutionFromAPIGatewayGET3"
+  action        = "lambda:InvokeFunction"
+  function_name = "${aws_lambda_function.satyam_lambda_function.function_name}"
+  principal     = "apigateway.amazonaws.com"
+
+  # The /*/* portion grants access from any method on any resource
+  # within the API Gateway "REST API".
+  source_arn = "${aws_api_gateway_rest_api.serverless_demos.execution_arn}/*/${aws_api_gateway_method.serverless_demos_employee_GET3.http_method}${aws_api_gateway_resource.serverless_demos_employee.path}"
+}
+
+# ---------------------CoRS Integration employees
+resource "aws_api_gateway_method_response" "method_response5" {
+ rest_api_id = "${aws_api_gateway_rest_api.serverless_demos.id}"
+  resource_id   = "${aws_api_gateway_resource.serverless_demos_employee.id}"
+  http_method = "${aws_api_gateway_method.serverless_demos_employee_GET3.http_method}"
+  status_code = "200"
+
+  response_parameters = {
+    "method.response.header.Access-Control-Allow-Origin" = true
+  }
+}
+
+resource "aws_api_gateway_integration_response" "integration_response5" {
+ rest_api_id = "${aws_api_gateway_rest_api.serverless_demos.id}"
+  resource_id   = "${aws_api_gateway_resource.serverless_demos_employee.id}"
+  http_method = "${aws_api_gateway_method.serverless_demos_employee_GET3.http_method}"
+  status_code = "200"
+
+  response_parameters = {
+    "method.response.header.Access-Control-Allow-Origin" = "'*'"
+  }
+  depends_on = [aws_api_gateway_integration.integration4]
+}
+# -------------End Of Cors Integration
+
+
+
 
 
 
@@ -332,8 +586,8 @@ resource "aws_api_gateway_deployment" "satyam_deployement" {
         aws_api_gateway_method.serverless_demos_method.id,
         aws_api_gateway_integration.integration.id,
 
-        aws_api_gateway_resource.employee.id,
-        aws_api_gateway_method.employee_method.id,
+        aws_api_gateway_resource.serverless_demos_employee.id,
+        aws_api_gateway_method.serverless_demos_employee_GET.id,
         aws_api_gateway_integration.integration1.id,
 
         aws_api_gateway_resource.serverless_demos_employee.id,
