@@ -35,9 +35,6 @@ jobs:
       - name: common configuration
         uses: ./.github/actions/common_configure
 
-      - name: Set up environment
-        run: bash scripts/aws_configuration.sh          
-      
       - name: Terraform INIT
         run: terraform init
 
