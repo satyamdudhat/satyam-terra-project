@@ -3,7 +3,7 @@ name: Satyam_project
 on:
   push:
     branches:
-      - dev
+      - master
       
   pull_request:
     branches:
@@ -47,6 +47,7 @@ jobs:
 
 
 
+        
   terraform-apply-final:
       if: github.event_name == 'push'
       runs-on: ubuntu-latest
