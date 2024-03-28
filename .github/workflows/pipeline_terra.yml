@@ -3,7 +3,7 @@ name: Satyam_project
 on:
   push:
     branches:
-      - master
+      - dev
       
   pull_request:
     branches:
@@ -33,7 +33,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: common configuration
-        uses: ./.github/actions/common_configure
+        uses: ./actions/common_configure
 
       - name: Set up aws configuration
         run: bash scripts/aws_configuration.sh          
@@ -55,7 +55,7 @@ jobs:
           uses: actions/checkout@v4
 
         - name: common configuration
-          uses: ./.github/actions/common_configure
+          uses: ./actions/common_configure
   
 
         - name: Set up aws configuration
