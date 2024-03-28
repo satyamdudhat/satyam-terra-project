@@ -1,12 +1,5 @@
 name: Satyam_project
 inputs:
-  Access_Key:
-    required: true
-  Secret_Key:
-    required: true
-  Default_region:
-    required: true
-  
 
 runs:
     using: 'composite'
@@ -22,10 +15,4 @@ runs:
           sudo apt-get install -y awscli
         shell: bash
 
-      - name: Set up aws configuration
-        run: bash scripts/aws_configuration.sh 
-        env:
-          AWS_ACCESS_KEY_ID: ${{ inputs.Access_Key }}"
-          AWS_SECRET_ACCESS_KEY: ${{ inputs.Secret_Key }}
-          AWS_DEFAULT_REGION: ${{ inputs.Secret_Key }}
-        shell: bash
+    
