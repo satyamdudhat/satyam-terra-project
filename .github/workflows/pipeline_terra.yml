@@ -27,7 +27,7 @@ env:
 jobs:
   terraform-and-build:
     if: github.event_name == 'push'
-    runs-on: ubuntu-lastest
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
