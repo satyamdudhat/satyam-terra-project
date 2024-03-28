@@ -22,7 +22,7 @@ env:
 jobs:
   terraform-and-build:
     if: github.event_name == 'push'
-    uses: ./.github/workflows/actions/common_workflow/action
+    uses: ./.github/actions/action.yml
     secrets:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
