@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master
+      - dev
       
   pull_request:
     branches:
@@ -26,14 +27,14 @@ env:
   
 jobs:
   terraform-and-build:
-    if: github.event_name == 'pull_request'
+    if: github.event_name == 'push'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
       - name: common configuration
-        uses: ./.github/actions/common_configure
+        uses: ./actions/common_configure
 
       - name: Set up aws configuration
         run: bash scripts/aws_configuration.sh          
@@ -48,14 +49,14 @@ jobs:
 
 
   terraform-apply-final:
-      if: github.event_name == 'push'
+      if: github.event_name == 'pull_request'
       runs-on: ubuntu-latest
       steps:
         - name: Checkout Repository
           uses: actions/checkout@v4
 
         - name: common configuration
-          uses: ./.github/actions/common_configure
+          uses: ./actions/common_configure
   
 
         - name: Set up aws configuration
