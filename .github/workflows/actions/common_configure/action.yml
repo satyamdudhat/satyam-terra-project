@@ -6,7 +6,6 @@ on:
 
 jobs:
     common:
-        runs-on: ubuntu-latest
         steps:
             - name: Install Terraform
               uses: hashicorp/setup-terraform@v3
