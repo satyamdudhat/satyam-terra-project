@@ -34,10 +34,11 @@ jobs:
 
       - name: common configuration
         uses: ./actions/common_configure
+        
 
       - name: Set up aws configuration
-        run: bash scripts/aws_configuration.sh          
-      
+        run: bash scripts/aws_configuration.sh 
+
       - name: Terraform INIT
         run: terraform init
 
