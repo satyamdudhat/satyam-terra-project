@@ -1,5 +1,4 @@
 name: Satyam_project
-inputs:
 
 runs:
     using: 'composite'
