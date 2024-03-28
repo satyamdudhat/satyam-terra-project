@@ -3,9 +3,6 @@ name: Satyam_project
 runs:
     using: 'composite'
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
-
       - name: Install Terraform
         uses: hashicorp/setup-terraform@v3
         with:
