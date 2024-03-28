@@ -1,12 +1,7 @@
 name: Satyam_project
 
-on:
-  workflow_call:
-     
-
-jobs:
-  common:
-    runs-on: ubuntu-latest
+runs:
+    using: 'composite'
     steps:
       - name: Install Terraform
         uses: hashicorp/setup-terraform@v3
