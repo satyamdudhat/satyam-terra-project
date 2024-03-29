@@ -33,8 +33,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: common configuration
-        uses: ./actions/common_configure
-        
+        uses: ./.github/actions/common_configure
 
       - name: Set up aws configuration
         run: bash scripts/aws_configuration.sh 
