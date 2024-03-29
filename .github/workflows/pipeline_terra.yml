@@ -34,8 +34,11 @@ jobs:
 
       - name: common configuration
         uses: ./.github/actions/common_configure
-        
-
+        with:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
+          
       - name: Set up aws configuration
         run: bash scripts/aws_configuration.sh 
 
