@@ -39,7 +39,7 @@ resource "aws_api_gateway_integration" "integration" {
 # Lambda Permission Code
 resource "aws_lambda_permission" "apigw_lambda" {
   count = length(var.http_methods)
-  statement_id  = "AllowExecutionFromAPIGateway"
+  statement_id  = "AllowExecutionFromAPIGateway_${count.index}"
   action        = "lambda:InvokeFunction"
   function_name = "${aws_lambda_function.satyam_lambda_function.arn}"
   principal     = "apigateway.amazonaws.com"
