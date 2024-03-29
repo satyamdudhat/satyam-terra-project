@@ -11,7 +11,7 @@ resource "aws_api_gateway_resource" "serverless_demos_resource" {
 }
 
 variable "http_methods" {
-  default = ["GET", "PUT", "POST", "PATCH"]
+  default = ["GET"]
 }
 
 resource "aws_api_gateway_method" "serverless_demos_method" {
@@ -49,7 +49,8 @@ resource "aws_lambda_permission" "apigw_lambda" {
 
 
 resource "aws_api_gateway_deployment" "satyam_deployement" {
-  rest_api_id = "${aws_api_gateway_rest_api.serverless_demos.id}"
+  count       = length(var.http_methods)
+  rest_api_id = aws_api_gateway_rest_api.serverless_demos.id
 
   triggers = {
     redeployment = sha1(jsonencode(aws_api_gateway_method.serverless_demos_method[*].id))
@@ -58,10 +59,25 @@ resource "aws_api_gateway_deployment" "satyam_deployement" {
   lifecycle {
     create_before_destroy = true
   }
+
+  depends_on = [
+    aws_api_gateway_integration.integration
+  ]
 }
 
+
+
+
 resource "aws_api_gateway_stage" "satyam_stage" {
-  deployment_id = aws_api_gateway_deployment.satyam_deployement.id
-  rest_api_id = aws_api_gateway_rest_api.serverless_demos.id
-  stage_name = "dev"
+  count        = 1
+  deployment_id = aws_api_gateway_deployment.satyam_deployement[0].id
+  rest_api_id  = aws_api_gateway_rest_api.serverless_demos.id
+  stage_name   = "dev"
+
+# Stage is created on when they are not exist
+  lifecycle {
+    ignore_changes     = [deployment_id]
+    create_before_destroy = true
+  }
 }
+
