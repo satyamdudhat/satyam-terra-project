@@ -1,6 +1,5 @@
 name: Satyam_project
   
-
 runs:
     using: 'composite'
     steps:
