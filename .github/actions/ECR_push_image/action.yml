@@ -10,6 +10,9 @@ inputs:
   AWS_DEFAULT_REGION:
     description: 'A Github AWS_DEFAULT_REGION'
     required: true
+  GITHUB_COMMIT_HASH:
+    description: 'A Github GITHUB_COMMIT_HASH'
+    required: true
 
 runs:
   using: 'composite'
@@ -23,5 +26,6 @@ runs:
           AWS_ACCOUNT_ID: ${{ inputs.AWS_ACCOUNT_ID }}
           AWS_DEFAULT_REGION: ${{ inputs.AWS_DEFAULT_REGION }}
           AWS_PROFILE: ${{ inputs.AWS_PROFILE }}
+          GITHUB_COMMIT_HASH: ${{ inputs.GITHUB_COMMIT_HASH}}
       shell: bash
 
