@@ -14,26 +14,6 @@ variable "myregion" {
   default = "ap-south-1"
 }
 
-variable "ecr_name" {
-  type = string
-}
-
-
-
-
-
-
-
-
-
-# DynamoDB Table Name
-variable "table_name" {
-  type = string
-}
-
-
-
-
 
 # Api Gateway Resource name
 variable "api_name" {
