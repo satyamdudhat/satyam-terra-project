@@ -14,11 +14,6 @@ env:
   TF_VAR_ecr_name: "satyam_project"
   TF_VAR_table_name: "employee_infos"
   TF_VAR_api_name: "serverless_demos"
-  AWS_ACCOUNT_ID: ${{secrets.AWS_ACCOUNT_ID}}
-  AWS_PROFILE: ${{secrets.AWS_PROFILE}}
-  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-  AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
   TF_VAR_accountId: ${{ secrets.AWS_ACCOUNT_ID }}
   
 
@@ -60,11 +55,13 @@ jobs:
 
         - name: common configuration
           uses: ./.github/actions/common_configure
-  
-
-        - name: Set up aws configuration
-          run: bash scripts/aws_configuration.sh
-
+          with:
+            AWS_ACCOUNT_ID: ${{secrets.AWS_ACCOUNT_ID}}
+            AWS_PROFILE: ${{secrets.AWS_PROFILE}}
+            AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+            AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+            AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
+          
 
         - name: Terraform INIT
           run: terraform init
