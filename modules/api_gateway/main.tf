@@ -268,7 +268,11 @@ resource "aws_api_gateway_deployment" "combined_deployment" {
 
 
 
-
+resource "aws_api_gateway_stage" "Dev_Stage" {
+  deployment_id = aws_api_gateway_deployment.combined_deployment.id
+  rest_api_id = aws_api_gateway_rest_api.EmployeeInfo.id
+  stage_name = "dev"
+}
 
 
 
