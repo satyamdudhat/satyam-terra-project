@@ -1,7 +1,6 @@
 #---------------------------------------------Status Resource Code--------------------------------------------------------------------------------------------
 resource "aws_api_gateway_rest_api" "EmployeeInfo" {
   name        = var.api_name
-  description = "Terraform Serverless Application Example"
 }
 
 resource "aws_api_gateway_resource" "status" {
