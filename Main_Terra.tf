@@ -24,3 +24,11 @@ module "Ecr_repo" {
   source = "./modules/ECR_Code"
   ecr_name = "satyam_project"
 }
+
+
+
+# Lambda Code
+module "Lambda_function" {
+  source = "./modules/lambda"
+  image_uri = "${module.ecr.repository_url}:latest"
+}
