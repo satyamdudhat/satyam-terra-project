@@ -15,7 +15,7 @@ env:
   TF_VAR_table_name: "employee_infos"
   TF_VAR_api_name: "serverless_demos"
   TF_VAR_accountId: ${{ secrets.AWS_ACCOUNT_ID }}
-  GITHUB_COMMIT_HASH: $(git rev-parse --short HEAD)
+  GITHUB_COMMIT_HASH: ${{ github.sha }}
   
 
 
@@ -73,7 +73,7 @@ jobs:
             AWS_ACCOUNT_ID: ${{secrets.AWS_ACCOUNT_ID}}
             AWS_PROFILE: ${{secrets.AWS_PROFILE}}
             AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
-            GITHUB_COMMIT_HASH: $(git rev-parse --short HEAD)
+            GITHUB_COMMIT_HASH: ${{ github.sha }}
   
         - name: Terraform Plan
           run: terraform plan
