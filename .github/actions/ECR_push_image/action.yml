@@ -12,6 +12,8 @@ inputs:
     required: true
 
 runs:
+  using: 'composite'
+  steps:
     - name: Check ECR Repository
       run: bash scripts/ecr_repo_check.sh
             
