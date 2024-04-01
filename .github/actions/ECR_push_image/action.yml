@@ -1,0 +1,25 @@
+name: "Ecr image"
+description: 'Ecr Repo Check And Image Push Script'
+inputs:
+  AWS_ACCOUNT_ID:
+    description: 'A Github AWS_ACCOUNT_ID'
+    required: true
+  AWS_PROFILE:
+    description: 'A Github AWS_PROFILE'
+    required: true
+  AWS_DEFAULT_REGION:
+    description: 'A Github AWS_DEFAULT_REGION'
+    required: true
+
+runs:
+    - name: Check ECR Repository
+      run: bash scripts/ecr_repo_check.sh
+            
+    - name: Push Image in ECR
+      run: bash scripts/image_push_code.sh
+      env:
+          AWS_ACCOUNT_ID: ${{ inputs.AWS_ACCOUNT_ID }}
+          AWS_DEFAULT_REGION: ${{ inputs.AWS_DEFAULT_REGION }}
+          AWS_PROFILE: ${{ inputs.AWS_PROFILE }}
+      shell: bash
+

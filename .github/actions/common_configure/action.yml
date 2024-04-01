@@ -1,5 +1,5 @@
-name: Satyam_project
-description: 'Testing Code'
+name: 'Configuration'
+description: 'Configuration Terraform and AWS '
 
 inputs:
   AWS_ACCOUNT_ID:
