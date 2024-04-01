@@ -18,7 +18,6 @@ runs:
   using: 'composite'
   steps:
     - name: Check ECR Repository
-      id: check-ecr
       run: bash scripts/ecr_repo_check.sh
       shell: bash
             
