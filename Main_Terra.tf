@@ -31,10 +31,4 @@ module "Ecr_repo" {
 module "Lambda_function" {
   source = "./modules/lambda"
   image_uri = "${module.Ecr_repo.repository_url}:latest"
-  lambda_execution_role = module.lambda_role.execution_arn
-}
-
-
-module "lambda_role" {
-  source = "./modules/lambda_role"
 }
