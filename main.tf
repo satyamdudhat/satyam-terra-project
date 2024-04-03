@@ -5,7 +5,7 @@ provider "aws" {
 
 # ApiGateway Table Resource Code
 module "api_gateway" {
-  source           = "./modules/Api_Gateway"
+  source           = "./modules/api_gateway"
   api_name         = lookup(var.Resource_name,"api_name","")
   uri              = module.Lambda_function.invoke_arn
   function_name    = module.Lambda_function.arn
