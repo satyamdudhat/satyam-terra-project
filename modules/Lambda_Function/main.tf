@@ -1,5 +1,5 @@
 resource "aws_lambda_function" "satyam_lambda_function" {
-  function_name    = "satyam_lambda_function"
+  function_name    = var.function_name
   architectures = ["x86_64"]
   package_type     = "Image"
   image_uri        = var.image_uri
@@ -7,12 +7,9 @@ resource "aws_lambda_function" "satyam_lambda_function" {
 }
 
 
-
-
-
 # Lmabda Role
 resource "aws_iam_role" "satyam_lambda_execution_role" {
-  name               = "satyam_lambda_execution_role"
+  name               = var.iam_role_name
   assume_role_policy = jsonencode({
     Version   = "2012-10-17",
     Statement = [{
@@ -27,7 +24,7 @@ resource "aws_iam_role" "satyam_lambda_execution_role" {
 
 # IAM Policy for ECR Access or we can say that which wchi action can be do by lambda in ecr
 resource "aws_iam_policy" "satyam_lambda_ecr_access_policy" {
-  name        = "satyam_lambda_ecr_access_policy"
+  name        = var.ecr_access_policy
   description = "Policy for granting Lambda access to ECR repositories"
   policy      = jsonencode({
     Version = "2012-10-17",
@@ -50,7 +47,7 @@ resource "aws_iam_policy" "satyam_lambda_ecr_access_policy" {
 
 
 resource "aws_iam_policy" "satyam_DynamoDb_access_policy" {
-  name        = "satyam_DynamoDb_access_policy"
+  name        = var.dyanmodb_access_policy
   description = "Policy for granting Lambda access to DyanmoDb Table"
   policy      = jsonencode({
     "Version": "2012-10-17",
@@ -68,7 +65,7 @@ resource "aws_iam_policy" "satyam_DynamoDb_access_policy" {
 
 
 resource "aws_iam_policy" "satyam_cloudwatch_logs_policy" {
-  name        = "satyam_cloudwatch_logs_policy"
+  name        = var.cloudwatch_access_policy
   description = "Allows Lambda function to have full access to CloudWatch Logs"
 
   policy = jsonencode({
