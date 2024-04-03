@@ -27,7 +27,6 @@ module "Ecr_repo" {
 }
 
 
-
 # Lambda Code
 module "Lambda_function" {
   function_name = lookup(var.Resource_name,"function_name","")
