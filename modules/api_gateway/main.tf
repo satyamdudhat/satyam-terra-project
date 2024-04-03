@@ -71,14 +71,6 @@ resource "aws_api_gateway_integration_response" "integration_response_status" {
 
 
 
-
-
-
-
-
-
-
-
 # ---------------------------------------------------Employee Resource------------------------------------------------------------------------------
 
 
