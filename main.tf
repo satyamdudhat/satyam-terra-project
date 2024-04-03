@@ -9,7 +9,6 @@ module "api_gateway" {
   api_name         = lookup(var.Resource_name,"api_name","")
   uri              = module.Lambda_function.invoke_arn
   function_name    = module.Lambda_function.arn
-  http_methods_status = ["GET","POST"]
 }
 
 
