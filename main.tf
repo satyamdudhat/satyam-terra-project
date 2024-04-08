@@ -9,6 +9,7 @@ module "api_gateway" {
   api_name         = lookup(var.Resource_name,"api_name","")
   uri              = module.Lambda_function.invoke_arn
   function_name    = module.Lambda_function.arn
+  api_path_name = var.Api_path
 }
 
 
@@ -16,6 +17,7 @@ module "api_gateway" {
 module "dynamoDB_table" {
   source = "./modules/DynamoDB"
   table_name = lookup(var.Resource_name,"table_name","")
+  hash_key_id = "employeeid"
 }
 
 
