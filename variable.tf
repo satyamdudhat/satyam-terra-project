@@ -12,5 +12,5 @@ variable "Resource_name" {
 
 variable "Api_path" {
   type = map(string)
-  default = {"resource1":"status", "resource2":"employee", "resource3":"employees"}
+  default = {"1":"status", "2":"employee", "3":"employees"}
 }
