@@ -6,7 +6,7 @@ resource "aws_api_gateway_rest_api" "EmployeeInfo" {
 resource "aws_api_gateway_resource" "status" {
   rest_api_id = "${aws_api_gateway_rest_api.EmployeeInfo.id}"
   parent_id   = "${aws_api_gateway_rest_api.EmployeeInfo.root_resource_id}"
-  path_part   = var.endpoint_path
+  path_part   = lookup(var.api_path_name,"1","")
 }
 
 
@@ -77,7 +77,7 @@ resource "aws_api_gateway_integration_response" "integration_response_status" {
 resource "aws_api_gateway_resource" "employee" {
   rest_api_id = "${aws_api_gateway_rest_api.EmployeeInfo.id}"
   parent_id   = "${aws_api_gateway_rest_api.EmployeeInfo.root_resource_id}"
-  path_part   = var.employee_endpoint_path
+  path_part   = lookup(var.api_path_name,"2","")
 }
 
 
@@ -157,7 +157,7 @@ resource "aws_api_gateway_integration_response" "integration_response_employee" 
 resource "aws_api_gateway_resource" "employees_resource" {
   rest_api_id = "${aws_api_gateway_rest_api.EmployeeInfo.id}"
   parent_id   = "${aws_api_gateway_rest_api.EmployeeInfo.root_resource_id}"
-  path_part   = var.employees_endpoint_path
+  path_part   = lookup(var.api_path_name,"3","")
 }
 
 
