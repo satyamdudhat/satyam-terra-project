@@ -17,7 +17,7 @@ variable "function_name" {
 
 
 variable "api_path_name" {
-  type = map(string)
+  type = list(string)
 }
 
 
