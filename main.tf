@@ -9,7 +9,7 @@ module "api_gateway" {
   api_name         = lookup(var.Resource_name,"api_name","")
   uri              = module.lambda_function.invoke_arn
   function_name    = module.lambda_function.arn
-  api_path_name = var.Api_path
+  api_path_name    = [ "status", "employee", "employees" ]
 }
 
 

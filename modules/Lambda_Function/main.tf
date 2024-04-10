@@ -46,7 +46,7 @@ resource "aws_iam_policy" "lambda_ecr_access_policy" {
 }
 
 
-resource "aws_iam_policy" "DynamoDb_access_policy" {
+resource "aws_iam_policy" "dynamodb_access_policy" {
   name        = var.dyanmodb_access_policy
   description = "Policy for granting Lambda access to DyanmoDb Table"
   policy      = jsonencode({
@@ -85,7 +85,7 @@ resource "aws_iam_policy" "cloudwatch_logs_policy" {
 
 
 # # Attach ECR Access Policy to IAM Role  we attcah a role with policy
-resource "aws_iam_role_policy_attachment" "lambda_ecr_access_attachment" {
+resource "aws_iam_role_policy_attachment" "Lambda_ecr_access_attachment" {
   role       = aws_iam_role.lambda_execution_role.name
   policy_arn = aws_iam_policy.lambda_ecr_access_policy.arn
 }
@@ -93,7 +93,7 @@ resource "aws_iam_role_policy_attachment" "lambda_ecr_access_attachment" {
 # Attach DynamoDb Access Policy to IAM Role  we attcah a role with Lambda Role
 resource "aws_iam_role_policy_attachment" "DyanmoDb_access_attachment" {
   role       = aws_iam_role.lambda_execution_role.name
-  policy_arn = aws_iam_policy.DynamoDb_access_policy.arn
+  policy_arn = aws_iam_policy.dynamodb_access_policy.arn
 }
 
 
