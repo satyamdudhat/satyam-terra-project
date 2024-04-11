@@ -16,7 +16,7 @@ on:
 jobs:
   terraform-and-build:
     environment:
-      name: ${{ 'master' || 'stage' || 'devs'}}
+      name: 'devs'
     if: github.event_name == 'pull_request' 
     runs-on: ubuntu-latest
     steps:
