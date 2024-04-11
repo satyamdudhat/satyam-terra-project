@@ -47,7 +47,7 @@ jobs:
   terraform-apply-final:
       if: github.event_name == 'push'
       environment:
-        name: ${{ github.event.push.base.ref }}
+        name: master
       runs-on: ubuntu-latest
       steps:
         - name: Checkout Repository
