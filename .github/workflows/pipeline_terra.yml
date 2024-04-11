@@ -48,8 +48,6 @@ jobs:
         run: terraform validate
   
 
-
-
         
   terraform-apply-final:
       if: github.event_name == 'push'
