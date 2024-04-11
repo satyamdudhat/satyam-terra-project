@@ -16,7 +16,7 @@ on:
 jobs:
   terraform-and-build:
     environment:
-      name: 'devs'
+      name: 'master'
     if: github.event_name == 'pull_request' 
     runs-on: ubuntu-latest
     steps:
@@ -48,7 +48,7 @@ jobs:
   terraform-apply-final:
       if: github.event_name == 'push'
       environment:
-        name: 'devs'
+        name: 'master'
       runs-on: ubuntu-latest
       steps:
         - name: Checkout Repository
