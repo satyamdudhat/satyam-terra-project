@@ -19,7 +19,6 @@ env:
   
 
 
-  
 jobs:
   terraform-and-build:
     environment:
@@ -39,7 +38,6 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
       
-
       - name: Terraform Init
         run: terraform init
 
