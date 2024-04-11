@@ -3,10 +3,14 @@ name: Satyam_project
 on:
   push:
     branches:
+      - devs
+      - stage
       - master
-      
+
   pull_request:
     branches:
+      - devs
+      - stage
       - master
     
 env:
@@ -22,8 +26,8 @@ env:
 jobs:
   terraform-and-build:
     environment:
-      name: dev
-    if: github.event_name == 'pull_request'
+      name: ${{ github.event.pull_request.base.ref }}-pull-request
+    if: github.event_name == 'pull_request' 
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
@@ -47,11 +51,13 @@ jobs:
       - name: Terraform Validate
         run: terraform validate
   
+
+
         
   terraform-apply-final:
       if: github.event_name == 'push'
       environment:
-        name: stage
+        name: s${{ github.ref }}-push
       runs-on: ubuntu-latest
       steps:
         - name: Checkout Repository
