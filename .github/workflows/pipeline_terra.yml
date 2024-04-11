@@ -47,7 +47,6 @@ jobs:
       - name: Terraform Validate
         run: terraform validate
   
-
         
   terraform-apply-final:
       if: github.event_name == 'push'
