@@ -48,7 +48,7 @@ jobs:
   terraform-apply-final:
       if: github.event_name == 'push'
       environment:
-        name: 'master'
+        name: 'dev'
       runs-on: ubuntu-latest
       steps:
         - name: Checkout Repository
