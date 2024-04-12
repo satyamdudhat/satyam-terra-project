@@ -46,7 +46,7 @@ jobs:
         
         
   terraform-apply-final:
-      if: github.event_name == 'push' && github.ref == 'refs/branch/devs'
+      if: github.event_name == 'push' && github.ref == 'refs/heads/devs'
       environment:
         name: 'devs'
       runs-on: ubuntu-latest
