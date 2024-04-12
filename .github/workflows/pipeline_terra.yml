@@ -16,7 +16,7 @@ on:
 jobs:
   terraform-and-build:
     environment:
-      name: ${{ github.event.pull_request.base.ref }}
+      name: 'master'
     if: github.event_name == 'pull_request' 
     runs-on: ubuntu-latest
     steps:
@@ -44,10 +44,11 @@ jobs:
 
 
         
+        
   terraform-apply-final:
       if: github.event_name == 'push'
       environment:
-        name: ${{ github.event.push.base.ref }}
+        name: 'devs'
       runs-on: ubuntu-latest
       steps:
         - name: Checkout Repository
