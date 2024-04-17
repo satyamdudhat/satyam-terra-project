@@ -42,6 +42,10 @@ runs:
           AWS_DEFAULT_REGION: ${{ inputs.AWS_DEFAULT_REGION }}
         shell: bash
 
+      - name: Terraform Init
+        run: terraform init
+        shell: bash
+        
       - name: Check ECR Repository
         run: bash scripts/ecr_repo_check.sh
         shell: bash
