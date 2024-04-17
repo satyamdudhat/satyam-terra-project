@@ -24,7 +24,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Configuration Terraform and AWS 
-        uses: ./.github/actions/common_configure
+        uses: ./.github/actions/common_steps
         with:
           AWS_ACCOUNT_ID: ${{secrets.AWS_ACCOUNT_ID}}
           AWS_PROFILE: ${{secrets.AWS_PROFILE}}
@@ -43,7 +43,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Configuration Terraform and AWS 
-        uses: ./.github/actions/common_configure
+        uses: ./.github/actions/common_steps
         with:
           AWS_ACCOUNT_ID: ${{secrets.AWS_ACCOUNT_ID}}
           AWS_PROFILE: ${{secrets.AWS_PROFILE}}
@@ -62,7 +62,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Configuration Terraform and AWS 
-        uses: ./.github/actions/common_configure
+        uses: ./.github/actions/common_steps
         with:
           AWS_ACCOUNT_ID: ${{secrets.AWS_ACCOUNT_ID}}
           AWS_PROFILE: ${{secrets.AWS_PROFILE}}
