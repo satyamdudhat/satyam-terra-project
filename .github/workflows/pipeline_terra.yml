@@ -14,17 +14,17 @@ on:
       - master
     
 jobs:
-  terraform-and-build:
+  Master-PullRequest:
     environment:
       name: 'master'
-    if: github.event_name == 'pull_request' 
+    if: github.event.pull_request.base.ref == 'master' 
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
       - name: Configuration Terraform and AWS 
-        uses: ./.github/actions/common_configure
+        uses: ./.github/actions/common_steps
         with:
           AWS_ACCOUNT_ID: ${{secrets.AWS_ACCOUNT_ID}}
           AWS_PROFILE: ${{secrets.AWS_PROFILE}}
@@ -32,104 +32,50 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
       
-      - name: Terraform Init
-        run: terraform init
 
-      - name: Terraform Plan
-        run: terraform plan
+  Devs-PullRequest:
+    environment:
+      name: 'devs'
+    if: github.event.pull_request.base.ref == 'devs' 
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
 
-      - name: Terraform Validate
-        run: terraform validate
+      - name: Configuration Terraform and AWS 
+        uses: ./.github/actions/common_steps
+        with:
+          AWS_ACCOUNT_ID: ${{secrets.AWS_ACCOUNT_ID}}
+          AWS_PROFILE: ${{secrets.AWS_PROFILE}}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
   
 
+  Stage-PullRequest:
+    environment:
+      name: 'stage'
+    if: github.event.pull_request.base.ref == 'stage' 
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
 
-        
-        
-  terraform-apply-final:
-      if: github.event_name == 'push' && github.ref == 'refs/heads/devs'
-      environment: 
-        name: 'devs'
-      runs-on: ubuntu-latest
-      steps:
-        - name: Checkout Repository
-          uses: actions/checkout@v4
-
-        - name: Configuration Terraform and AWS 
-          uses: ./.github/actions/common_configure
-          with:
-            AWS_ACCOUNT_ID: ${{secrets.AWS_ACCOUNT_ID}}
-            AWS_PROFILE: ${{secrets.AWS_PROFILE}}
-            AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-            AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-            AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
-          
-        - name: Terraform Init
-          run: terraform init
-  
-        - name: ECR Image Push
-          uses: ./.github/actions/ECR_push_image
-          with:
-            AWS_ACCOUNT_ID: ${{secrets.AWS_ACCOUNT_ID}}
-            AWS_PROFILE: ${{secrets.AWS_PROFILE}}
-            AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
-            GITHUB_COMMIT_HASH: ${{ github.sha }}
-  
-        - name: Terraform Plan
-          run: terraform plan
-        
-        - name: Terraform Validate
-          run: terraform validate
-    
-        - name: Terraform Apply
-          run: terraform apply -auto-approve
-  
-
-
-  terraform-stage-final:
-      if: github.event_name == 'push' && github.ref == 'refs/heads/stage'
-      environment: 
-        name: 'stage'
-      runs-on: ubuntu-latest
-      steps:
-        - name: Checkout Repository
-          uses: actions/checkout@v4
-
-        - name: Configuration Terraform and AWS 
-          uses: ./.github/actions/common_steps
-          with:
-            AWS_ACCOUNT_ID: ${{secrets.AWS_ACCOUNT_ID}}
-            AWS_PROFILE: ${{secrets.AWS_PROFILE}}
-            AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-            AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-            AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
-          
-        - name: Terraform Init
-          run: terraform init
-  
-        - name: ECR Image Push
-          uses: ./.github/actions/ECR_push_image
-          with:
-            AWS_ACCOUNT_ID: ${{secrets.AWS_ACCOUNT_ID}}
-            AWS_PROFILE: ${{secrets.AWS_PROFILE}}
-            AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
-            GITHUB_COMMIT_HASH: ${{ github.sha }}
-  
-        - name: Terraform Plan
-          run: terraform plan
-        
-        - name: Terraform Validate
-          run: terraform validate
-    
-        - name: Terraform Apply
-          run: terraform apply -auto-approve
-
-
-  
+      - name: Configuration Terraform and AWS 
+        uses: ./.github/actions/common_steps
+        with:
+          AWS_ACCOUNT_ID: ${{secrets.AWS_ACCOUNT_ID}}
+          AWS_PROFILE: ${{secrets.AWS_PROFILE}}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
+      
   
 
 
 
-  terraform-master-final:
+
+  Master-Environment:
       if: github.event_name == 'push' && github.ref == 'refs/heads/master'
       environment: 
         name: 'master'
@@ -138,7 +84,7 @@ jobs:
         - name: Checkout Repository
           uses: actions/checkout@v4
 
-        - name: Configuration Terraform and AWS 
+        - name: Common Steps 
           uses: ./.github/actions/common_workflow_enviroments
           with:
             AWS_ACCOUNT_ID: ${{secrets.AWS_ACCOUNT_ID}}
@@ -147,3 +93,48 @@ jobs:
             AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
             AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
             GITHUB_COMMIT_HASH: ${{ github.sha }}
+
+        
+        
+  Devs-Environment:
+      if: github.event_name == 'push'  && github.ref == 'refs/heads/devs'
+      environment:
+        name: devs
+      runs-on: ubuntu-latest
+      steps:
+        - name: Checkout Repository
+          uses: actions/checkout@v4
+          
+        - name: Common Steps 
+          uses: ./.github/actions/common_workflow_enviroments
+          with:
+            AWS_ACCOUNT_ID: ${{secrets.AWS_ACCOUNT_ID}}
+            AWS_PROFILE: ${{secrets.AWS_PROFILE}}
+            AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+            AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+            AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
+            GITHUB_COMMIT_HASH: ${{ github.sha }}
+
+
+
+  Stage-Environment:
+      if: github.event_name == 'push' && github.ref == 'refs/heads/stage'
+      environment: 
+        name: 'stage'
+      runs-on: ubuntu-latest
+      steps:
+        - name: Checkout Repository
+          uses: actions/checkout@v4
+          
+        - name: Common Steps 
+          uses: ./.github/actions/common_workflow_enviroments
+          with:
+            AWS_ACCOUNT_ID: ${{secrets.AWS_ACCOUNT_ID}}
+            AWS_PROFILE: ${{secrets.AWS_PROFILE}}
+            AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+            AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+            AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
+            GITHUB_COMMIT_HASH: ${{ github.sha }}
+
+
+  
