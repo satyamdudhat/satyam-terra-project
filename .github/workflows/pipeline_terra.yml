@@ -136,7 +136,7 @@ jobs:
       runs-on: ubuntu-latest
       steps:
         - name: Configuration Terraform and AWS 
-          uses: ./.github/actions/common_workflow_environments
+          uses: ./.github/actions/common_workflow_enviroments
           with:
             AWS_ACCOUNT_ID: ${{secrets.AWS_ACCOUNT_ID}}
             AWS_PROFILE: ${{secrets.AWS_PROFILE}}
