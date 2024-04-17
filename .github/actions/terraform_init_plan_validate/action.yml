@@ -2,7 +2,7 @@ name: 'Terraform'
 description: 'Terraform init, plan and validate command'
 
 runs:
-using: 'composite'
+  using: 'composite'
   steps:
     - name: Terraform Init
       run: terraform init
