@@ -1,0 +1,61 @@
+name: Cooman workflow 
+on:
+    workflow_call:
+        inputs:
+            AWS_ACCOUNT_ID:
+                required: true
+                type: string
+            AWS_PROFILE:
+                required: true
+                type: string
+            AWS_ACCESS_KEY_ID:
+                required: true
+                type: string
+            AWS_SECRET_ACCESS_KEY:
+                required: true
+                type: string
+            AWS_DEFAULT_REGION:
+                required: true
+                type: string
+            GITHUB_COMMIT_HASH:
+                required: true
+                type: string
+            
+
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+        - name: Checkout Repository
+          uses: actions/checkout@v4
+
+        - name: Configuration Terraform and AWS 
+          uses: ./.github/actions/common_configure
+          with:
+            AWS_ACCOUNT_ID: ${{inputs.AWS_ACCOUNT_ID}}
+            AWS_PROFILE: ${{inputs.AWS_PROFILE}}
+            AWS_ACCESS_KEY_ID: ${{ inputs.AWS_ACCESS_KEY_ID }}
+            AWS_SECRET_ACCESS_KEY: ${{ inputs.AWS_SECRET_ACCESS_KEY }}
+            AWS_DEFAULT_REGION: ${{ inputs.AWS_DEFAULT_REGION }}
+          
+        - name: Terraform Init
+          run: terraform init
+  
+        - name: ECR Image Push
+          uses: ./.github/actions/ECR_push_image
+          with:
+            AWS_ACCOUNT_ID: ${{inputs.AWS_ACCOUNT_ID}}
+            AWS_PROFILE: ${{inputs.AWS_PROFILE}}
+            AWS_DEFAULT_REGION: ${{ inputs.AWS_DEFAULT_REGION }}
+            GITHUB_COMMIT_HASH: ${{ github.sha }}
+  
+        - name: Terraform Plan
+          run: terraform plan
+        
+        - name: Terraform Validate
+          run: terraform validate
+    
+        - name: Terraform Apply
+          run: terraform apply -auto-approve
+
