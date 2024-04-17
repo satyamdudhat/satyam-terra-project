@@ -1,0 +1,48 @@
+name: Satyam_project
+'on':
+  push:
+    branches:
+      - stage
+  pull_request:
+    branches:
+      - stage
+jobs:
+
+  Master-PullRequest:
+    environment:
+      name: stage
+    if: github.event.pull_request.base.ref == 'stage'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+      - name: Aws && Terraform Configuration
+        uses: ./.github/actions/aws_terraform_configuration
+        with:
+          AWS_ACCOUNT_ID: '${{secrets.AWS_ACCOUNT_ID}}'
+          AWS_PROFILE: '${{secrets.AWS_PROFILE}}'
+          AWS_ACCESS_KEY_ID: '${{ secrets.AWS_ACCESS_KEY_ID }}'
+          AWS_SECRET_ACCESS_KEY: '${{ secrets.AWS_SECRET_ACCESS_KEY }}'
+          AWS_DEFAULT_REGION: '${{ secrets.AWS_DEFAULT_REGION }}'
+
+      - name: 'Terraform init, plan and validate'
+        uses: ./.github/actions/terraform_init_plan_validate
+
+
+  Stage-Environment:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/stage'
+    environment:
+      name: stage
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+      - name: Common Steps
+        uses: ./.github/actions/common_workflow_enviroments
+        with:
+          AWS_ACCOUNT_ID: '${{secrets.AWS_ACCOUNT_ID}}'
+          AWS_PROFILE: '${{secrets.AWS_PROFILE}}'
+          AWS_ACCESS_KEY_ID: '${{ secrets.AWS_ACCESS_KEY_ID }}'
+          AWS_SECRET_ACCESS_KEY: '${{ secrets.AWS_SECRET_ACCESS_KEY }}'
+          AWS_DEFAULT_REGION: '${{ secrets.AWS_DEFAULT_REGION }}'
+          GITHUB_COMMIT_HASH: '${{ github.sha }}'

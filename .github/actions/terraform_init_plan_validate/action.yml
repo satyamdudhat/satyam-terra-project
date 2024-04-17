@@ -1,0 +1,17 @@
+name: 'Terraform'
+description: 'Terraform init, plan and validate command'
+
+runs:
+using: 'composite'
+  steps:
+    - name: Terraform Init
+      run: terraform init
+      shell: bash
+
+    - name: Terraform Plan
+      run: terraform plan
+      shell: bash
+
+    - name: Terraform Validate
+      run: terraform validate
+      shell: bash
