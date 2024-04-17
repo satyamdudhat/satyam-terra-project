@@ -38,3 +38,12 @@ runs:
           AWS_SECRET_ACCESS_KEY: ${{ inputs.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: ${{ inputs.AWS_DEFAULT_REGION }}
         shell: bash
+
+      - name: Terraform Init
+        run: terraform init
+
+      - name: Terraform Plan
+        run: terraform plan
+
+      - name: Terraform Validate
+        run: terraform validate
