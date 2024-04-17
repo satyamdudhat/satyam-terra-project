@@ -6,7 +6,7 @@ name: Satyam_project
   pull_request:
     branches:
       - stage
-      
+
 jobs:
 
   Stage-PullRequest:
@@ -53,10 +53,10 @@ jobs:
       - name: Check Repsoitery and Push Image
         uses: ./.github/actions/ECR_push_image
         with:
-          AWS_ACCOUNT_ID: ${{ inputs.AWS_ACCOUNT_ID }}
-          AWS_DEFAULT_REGION: ${{ inputs.AWS_DEFAULT_REGION }}
-          AWS_PROFILE: ${{ inputs.AWS_PROFILE }}
-          GITHUB_COMMIT_HASH: ${{ inputs.GITHUB_COMMIT_HASH}}
+          AWS_ACCOUNT_ID: '${{secrets.AWS_ACCOUNT_ID}}'
+          AWS_DEFAULT_REGION: '${{ secrets.AWS_DEFAULT_REGION }}'
+          AWS_PROFILE: '${{secrets.AWS_PROFILE}}'
+          GITHUB_COMMIT_HASH: '${{ github.sha }}'
       
       - name: Terraform init, plan and validate
         uses: ./.github/actions/terraform_init_plan_validate
