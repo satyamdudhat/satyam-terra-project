@@ -135,6 +135,9 @@ jobs:
         name: 'master'
       runs-on: ubuntu-latest
       steps:
+        - name: Checkout Repository
+          uses: actions/checkout@v4
+
         - name: Configuration Terraform and AWS 
           uses: ./.github/actions/common_workflow_enviroments
           with:
