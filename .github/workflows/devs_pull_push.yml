@@ -8,7 +8,7 @@ name: Satyam_project
       - devs
 jobs:
 
-  Master-PullRequest:
+  Devs-PullRequest:
     environment:
       name: devs
     if: github.event.pull_request.base.ref == 'devs'
@@ -30,7 +30,7 @@ jobs:
         uses: ./.github/actions/terraform_init_plan_validate
 
 
-  Master-Environment:
+  Devs-Environment:
     if: github.event_name == 'push' && github.ref == 'refs/heads/devs'
     environment:
       name: devs

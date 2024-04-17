@@ -8,7 +8,7 @@ name: Satyam_project
       - stage
 jobs:
 
-  Master-PullRequest:
+  Stage-PullRequest:
     environment:
       name: stage
     if: github.event.pull_request.base.ref == 'stage'
