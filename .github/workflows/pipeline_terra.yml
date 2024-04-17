@@ -125,20 +125,44 @@ jobs:
 
 
   
+  
+
 
 
   terraform-master-final:
-    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
-    environment: 
-      name: 'master'
-    runs-on: ubuntu-latest
-    steps:
-      - name: Reusable Workflow
-        uses: ./.github/workflows/reusable_workflow
-        env:
-          AWS_ACCOUNT_ID: ${{secrets.AWS_ACCOUNT_ID}}
-          AWS_PROFILE: ${{secrets.AWS_PROFILE}}
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
-          GITHUB_COMMIT_HASH: ${{ github.sha }}
+      if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+      environment: 
+        name: 'master'
+      runs-on: ubuntu-latest
+      steps:
+        - name: Checkout Repository
+          uses: actions/checkout@v4
+
+        - name: Configuration Terraform and AWS 
+          uses: ./.github/actions/common_configure
+          with:
+            AWS_ACCOUNT_ID: ${{secrets.AWS_ACCOUNT_ID}}
+            AWS_PROFILE: ${{secrets.AWS_PROFILE}}
+            AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+            AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+            AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
+          
+        - name: Terraform Init
+          run: terraform init
+  
+        - name: ECR Image Push
+          uses: ./.github/actions/ECR_push_image
+          with:
+            AWS_ACCOUNT_ID: ${{secrets.AWS_ACCOUNT_ID}}
+            AWS_PROFILE: ${{secrets.AWS_PROFILE}}
+            AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
+            GITHUB_COMMIT_HASH: ${{ github.sha }}
+  
+        - name: Terraform Plan
+          run: terraform plan
+        
+        - name: Terraform Validate
+          run: terraform validate
+    
+        - name: Terraform Apply
+          run: terraform apply -auto-approve
