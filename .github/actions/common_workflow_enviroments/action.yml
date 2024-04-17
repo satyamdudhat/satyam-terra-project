@@ -1,0 +1,72 @@
+name: 'Common-workflow'
+description: 'common_workflow_enviroments '
+
+inputs:
+  AWS_ACCOUNT_ID:
+    description: 'A Github AWS_ACCOUNT_ID'
+    required: true
+  AWS_PROFILE:
+    description: 'A Github AWS_PROFILE'
+    required: true
+  AWS_ACCESS_KEY_ID:
+    description: 'A Github AWS_ACCESS_KEY_ID'
+    required: true
+  AWS_SECRET_ACCESS_KEY:
+    description: 'A Github AWS_SECRET_ACCESS_KEY'
+    required: true
+  AWS_DEFAULT_REGION:
+    description: 'A Github AWS_DEFAULT_REGION'
+    required: true
+  GITHUB_COMMIT_HASH:
+    description: 'A Github GITHUB_COMMIT_HASH'
+    required: true
+
+
+
+runs:
+    using: 'composite'
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Install Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.7.0
+
+
+      - name: Set up aws configuration
+        run: bash scripts/aws_configuration.sh
+        env:
+          AWS_ACCOUNT_ID: ${{ inputs.AWS_ACCOUNT_ID }}
+          AWS_PROFILE: ${{ inputs.AWS_PROFILE }}
+          AWS_ACCESS_KEY_ID: ${{ inputs.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ inputs.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ inputs.AWS_DEFAULT_REGION }}
+        shell: bash
+
+      - name: Check ECR Repository
+        run: bash scripts/ecr_repo_check.sh
+        shell: bash
+            
+      - name: Push Image in ECR
+        run: bash scripts/image_push_code.sh
+        env:
+            AWS_ACCOUNT_ID: ${{ inputs.AWS_ACCOUNT_ID }}
+            AWS_DEFAULT_REGION: ${{ inputs.AWS_DEFAULT_REGION }}
+            AWS_PROFILE: ${{ inputs.AWS_PROFILE }}
+            GITHUB_COMMIT_HASH: ${{ inputs.GITHUB_COMMIT_HASH}}
+        shell: bash
+      
+      - name: Terraform Plan
+        run: terraform plan
+        shell: bash
+        
+      - name: Terraform Validate
+        run: terraform validate
+        shell: bash
+    
+      - name: Terraform Apply
+        run: terraform apply -auto-approve
+        shell: bash
+  
