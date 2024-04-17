@@ -128,17 +128,17 @@ jobs:
 
 
   terraform-master-final:
-      if: github.event_name == 'push' && github.ref == 'refs/heads/master'
-      environment: 
-        name: 'master'
-      runs-on: ubuntu-latest
-      steps:
-        - name: Reusable Workflow
-          uses: ./.github/workflows/reusable_workflow
-          with:
-            AWS_ACCOUNT_ID: ${{secrets.AWS_ACCOUNT_ID}}
-            AWS_PROFILE: ${{secrets.AWS_PROFILE}}
-            AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-            AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-            AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
-            GITHUB_COMMIT_HASH: ${{ github.sha }}
+    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+    environment: 
+      name: 'master'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Reusable Workflow
+        uses: ./.github/workflows/reusable_workflow
+        env:
+          AWS_ACCOUNT_ID: ${{secrets.AWS_ACCOUNT_ID}}
+          AWS_PROFILE: ${{secrets.AWS_PROFILE}}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
+          GITHUB_COMMIT_HASH: ${{ github.sha }}
