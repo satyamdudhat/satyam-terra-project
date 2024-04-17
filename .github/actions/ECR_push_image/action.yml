@@ -19,6 +19,8 @@ runs:
   steps:
     - name: Check ECR Repository
       run: bash scripts/ecr_repo_check.sh
+      env:
+        AWS_PROFILE: ${{ inputs.AWS_PROFILE }}
       shell: bash
             
     - name: Push Image in ECR

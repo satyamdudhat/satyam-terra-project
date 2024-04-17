@@ -61,6 +61,6 @@ jobs:
         uses: ./.github/actions/terraform_init_plan_validate
       
       - name: Terraform Apply
-        run: terraform apply
+        run: terraform apply -auto-approve
 
 
