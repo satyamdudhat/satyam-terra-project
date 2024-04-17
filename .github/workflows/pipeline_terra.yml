@@ -96,7 +96,7 @@ jobs:
 
         
         
-  Dev-Environment:
+  Devs-Environment:
       if: github.event_name == 'push'  && github.ref == 'refs/heads/devs'
       environment:
         name: devs
