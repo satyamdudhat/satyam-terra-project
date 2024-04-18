@@ -20,9 +20,7 @@ jobs:
       - name: Set output
         id: set_env
         run: |
-          my_var="stage"
-          echo "Output [$my_var]"
-          echo "my_var=$my_var" >> $GITHUB_OUTPUT
+          echo "my_var=stage" >> $GITHUB_OUTPUT
 
   Stage-PullRequest:
     needs: Enviroment
@@ -54,7 +52,8 @@ jobs:
     needs: Enviroment
     if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
-    environment: ${{ needs.set-environment.outputs.current_env }}
+    environment: 
+      name: ${{ needs.Enviroment.outputs.current_env }}
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
