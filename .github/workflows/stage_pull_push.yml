@@ -32,7 +32,7 @@ jobs:
     if: github.event_name == 'push'
     runs-on: ubuntu-latest
     environment: 
-      name: stage
+      name: ${{ needs.set-environment.outputs.current_env }}
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
