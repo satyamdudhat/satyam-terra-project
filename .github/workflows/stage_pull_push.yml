@@ -19,6 +19,8 @@ jobs:
       aws_access_key: ${{ steps.variables.outputs.AWS_ACCESS_KEY_ID }}
       secret_key: ${{ steps.variables.outputs.AWS_SECRET_ACCESS_KEY }}
       default_region: ${{ steps.variables.outputs.AWS_DEFAULT_REGION }}
+      my_var: ${{steps.variables.outputs.my_var}}
+
 
     steps:
       - name: Secerets Variables
@@ -29,6 +31,10 @@ jobs:
           echo "::set-output name=AWS_ACCESS_KEY_ID::${{ secrets.AWS_ACCESS_KEY_ID }}"
           echo "::set-output name=AWS_SECRET_ACCESS_KEY::${{ secrets.AWS_SECRET_ACCESS_KEY }}"
           echo "::set-output name=AWS_DEFAULT_REGION::${{ secrets.AWS_DEFAULT_REGION }}"
+          my_var="Hello World"
+          echo "Output [$my_var]"
+          echo "my_var=$my_var" >> $GITHUB_OUTPUT 
+
 
       - name: Debug Secrets
         run: |
@@ -55,6 +61,7 @@ jobs:
           echo "AWS_ACCESS_KEY_ID: [${{needs.Enviroment.outputs.aws_access_key}}]"
           echo "AWS_SECRET_ACCESS_KEY: [${{needs.Enviroment.outputs.secret_key}}]"
           echo "AWS_DEFAULT_REGION: [${{needs.Enviroment.outputs.default_region}}]"
+          echo my_var [${{needs.Enviroment.outputs.my_var}}]
 
       
 
