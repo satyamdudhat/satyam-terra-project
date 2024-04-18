@@ -31,7 +31,8 @@ jobs:
     needs: Enviroment
     if: github.event_name == 'push'
     runs-on: ubuntu-latest
-    environment: ${{ needs.set-environment.outputs.current_env }}
+    environment: 
+      name: stage
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
