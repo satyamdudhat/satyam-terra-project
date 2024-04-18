@@ -14,25 +14,22 @@ jobs:
     environment:
       name: stage
     outputs:
-      current_env: ${{ steps.set_env.outputs.current_env }}
+      current_env: ${{ steps.set_env.outputs.my_var }}
 
     steps:
-      - name: Check if stage
-        if: endsWith(github.ref, '/stage')
-        run: |
-          echo "ENVIRONMENT_NAME=stage" >> $GITHUB_ENV
-
       - name: Set output
         id: set_env
-        run: echo "::set-output name=current_env::${{ env.ENVIRONMENT_NAME }}" 
-      
+        run: |
+          my_var="stage"
+          echo "Output [$my_var]"
+          echo "my_var=$my_var" >> $GITHUB_OUTPUT
 
   Stage-PullRequest:
     needs: Enviroment
     if: github.event_name == 'push'
     runs-on: ubuntu-latest
     environment: 
-      name: ${{ needs.set-environment.outputs.current_env }}
+      name: ${{ needs.Enviroment.outputs.current_env }}
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
