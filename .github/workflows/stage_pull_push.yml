@@ -9,30 +9,65 @@ name: Satyam_project
   
 
 jobs:
-
-  Stage-PullRequest:
-    if: github.event_name == 'pull_request'
+  Enviroment:
     runs-on: ubuntu-latest
     environment:
       name: stage
+    outputs:
+      account_id: ${{ steps.variables.outputs.AWS_ACCOUNT_ID }}
+      aws_profile: ${{ steps.variables.outputs.AWS_PROFILE }}
+      aws_access_key: ${{ steps.variables.outputs.AWS_ACCESS_KEY_ID }}
+      secret_key: ${{ steps.variables.outputs.AWS_SECRET_ACCESS_KEY }}
+      default_region: ${{ steps.variables.outputs.AWS_DEFAULT_REGION }}
+
+    steps:
+      - name: Secerets Variables
+        id: variables
+        run: |
+          echo "::set-output name=AWS_ACCOUNT_ID::${{secrets.AWS_ACCOUNT_ID}}"
+          echo "::set-output name=AWS_PROFILE::${{secrets.AWS_PROFILE}}"
+          echo "::set-output name=AWS_ACCESS_KEY_ID::${{ secrets.AWS_ACCESS_KEY_ID }}"
+          echo "::set-output name=AWS_SECRET_ACCESS_KEY::${{ secrets.AWS_SECRET_ACCESS_KEY }}"
+          echo "::set-output name=AWS_DEFAULT_REGION::${{ secrets.AWS_DEFAULT_REGION }}"
+
+
+
+
+
+
+
+
+
+
+  Stage-PullRequest:
+    needs: Enviroment
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    env:
+      account_id: ${{needs.Enviroment.outputs.account_id}}
+      aws_profile: ${{needs.Enviroment.outputs.aws_profile}}
+      aws_access_key: ${{needs.Enviroment.outputs.aws_access_key}}
+      secret_key: ${{needs.Enviroment.outputs.secret_key}}
+      default_region: ${{needs.Enviroment.outputs.default_region}}
+
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
       - name: Aws && Terraform Configuration
         uses: ./.github/actions/aws_terraform_configuration
         with:
-          AWS_ACCOUNT_ID: '${{secrets.AWS_ACCOUNT_ID}}'
-          AWS_PROFILE: '${{secrets.AWS_PROFILE}}'
-          AWS_ACCESS_KEY_ID: '${{ secrets.AWS_ACCESS_KEY_ID }}'
-          AWS_SECRET_ACCESS_KEY: '${{ secrets.AWS_SECRET_ACCESS_KEY }}'
-          AWS_DEFAULT_REGION: '${{ secrets.AWS_DEFAULT_REGION }}'
+          AWS_ACCOUNT_ID: '$account_id'
+          AWS_PROFILE: '$aws_profile'
+          AWS_ACCESS_KEY_ID: '$aws_access_key'
+          AWS_SECRET_ACCESS_KEY: '$secret_key'
+          AWS_DEFAULT_REGION: '$default_region'
 
       - name: 'Terraform init, plan and validate'
         uses: ./.github/actions/terraform_init_plan_validate
 
 
   Stage-Environment-Deployment:
-    if: github.event_name == 'push'
+    if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     environment:
       name: stage
