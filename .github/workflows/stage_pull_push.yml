@@ -61,7 +61,7 @@ jobs:
           echo "AWS_ACCESS_KEY_ID: [${{needs.Enviroment.outputs.aws_access_key}}]"
           echo "AWS_SECRET_ACCESS_KEY: [${{needs.Enviroment.outputs.secret_key}}]"
           echo "AWS_DEFAULT_REGION: [${{needs.Enviroment.outputs.default_region}}]"
-          echo my_var ${{needs.Enviroment.outputs.my_var}}
+          echo ${{needs.Enviroment.outputs.my_var}}
 
       
 
