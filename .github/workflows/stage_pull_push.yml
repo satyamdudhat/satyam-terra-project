@@ -53,14 +53,15 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
+
       - name: Aws && Terraform Configuration
         uses: ./.github/actions/aws_terraform_configuration
         with:
-          AWS_ACCOUNT_ID: '${{needs.Enviroment.outputs.account_id}}'
-          AWS_PROFILE: '${{needs.Enviroment.outputs.aws_profile}}'
-          AWS_ACCESS_KEY_ID: '${{needs.Enviroment.outputs.aws_access_key}}'
-          AWS_SECRET_ACCESS_KEY: '${{needs.Enviroment.outputs.secret_key}}'
-          AWS_DEFAULT_REGION: '${{needs.Enviroment.outputs.default_region}}'
+          AWS_ACCOUNT_ID: 'account_id: ${{needs.Enviroment.outputs.account_id}}'
+          AWS_PROFILE: 'aws_profile: ${{needs.Enviroment.outputs.aws_profile}}'
+          AWS_ACCESS_KEY_ID: 'aws_access_key: ${{needs.Enviroment.outputs.aws_access_key}}'
+          AWS_SECRET_ACCESS_KEY: 'secret_key: ${{needs.Enviroment.outputs.secret_key}}'
+          AWS_DEFAULT_REGION: 'default_region: ${{needs.Enviroment.outputs.default_region}}'
 
       - name: 'Terraform init, plan and validate'
         uses: ./.github/actions/terraform_init_plan_validate
