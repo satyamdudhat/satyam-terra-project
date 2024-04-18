@@ -50,11 +50,11 @@ jobs:
 
       - name: Debug Output Variables
         run: |
-          echo "AWS_ACCOUNT_ID: ${{needs.Enviroment.outputs.account_id}}"
-          echo "AWS_PROFILE: ${{needs.Enviroment.outputs.aws_profile}}"
-          echo "AWS_ACCESS_KEY_ID: ${{needs.Enviroment.outputs.aws_access_key}}"
-          echo "AWS_SECRET_ACCESS_KEY: ${{needs.Enviroment.outputs.secret_key}}"
-          echo "AWS_DEFAULT_REGION: ${{needs.Enviroment.outputs.default_region}}"
+          echo "AWS_ACCOUNT_ID: [${{needs.Enviroment.outputs.account_id}}]"
+          echo "AWS_PROFILE: [${{needs.Enviroment.outputs.aws_profile}}]"
+          echo "AWS_ACCESS_KEY_ID: [${{needs.Enviroment.outputs.aws_access_key}}]"
+          echo "AWS_SECRET_ACCESS_KEY: [${{needs.Enviroment.outputs.secret_key}}]"
+          echo "AWS_DEFAULT_REGION: [${{needs.Enviroment.outputs.default_region}}]"
 
       
 
