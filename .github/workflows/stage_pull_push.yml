@@ -11,26 +11,36 @@ name: Satyam_project
 jobs:
   Enviroment:
     runs-on: ubuntu-latest
-    environment:
-      name: stage
     outputs:
       current_env: ${{ steps.set_env.outputs.my_var }}
-
     steps:
       - name: Set output
         id: set_env
         run: |
-          echo "my_var=${{secrets.AWS_ACCOUNT_ID}}" >> $GITHUB_OUTPUT
+          echo "my_var=stage" >> $GITHUB_OUTPUT
 
-
+          
   Stage-PullRequest:
     needs: Enviroment
-    if: github.event_name == 'push'
+    if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
+    environment: 
+      name: ${{ needs.Enviroment.outputs.current_env }}
     steps:
       - name: Checkout Repository
-        run : |
-          echo ${{ needs.Enviroment.outputs.current_env }}
+        uses: actions/checkout@v4
+
+      - name: Aws && Terraform Configuration
+        uses: ./.github/actions/aws_terraform_configuration
+        with:
+          AWS_ACCOUNT_ID: '${{secrets.AWS_ACCOUNT_ID}}'
+          AWS_PROFILE: '${{secrets.AWS_PROFILE}}'
+          AWS_ACCESS_KEY_ID: '${{ secrets.AWS_ACCESS_KEY_ID }}'
+          AWS_SECRET_ACCESS_KEY: '${{ secrets.AWS_SECRET_ACCESS_KEY }}'
+          AWS_DEFAULT_REGION: '${{ secrets.AWS_DEFAULT_REGION }}'
+
+      - name: 'Terraform init, plan and validate'
+        uses: ./.github/actions/terraform_init_plan_validate
 
 
 
@@ -38,7 +48,7 @@ jobs:
 
   Stage-Environment-Deployment:
     needs: Enviroment
-    if: github.event_name == 'pull_request'
+    if: github.event_name == 'push'
     runs-on: ubuntu-latest
     environment: 
       name: ${{ needs.Enviroment.outputs.current_env }}
