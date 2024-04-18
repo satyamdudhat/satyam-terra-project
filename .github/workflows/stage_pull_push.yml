@@ -14,81 +14,53 @@ jobs:
     environment:
       name: stage
     outputs:
-      account_id: ${{ steps.variables.outputs.AWS_ACCOUNT_ID }}
-      aws_profile: ${{ steps.variables.outputs.AWS_PROFILE }}
-      aws_access_key: ${{ steps.variables.outputs.AWS_ACCESS_KEY_ID }}
-      secret_key: ${{ steps.variables.outputs.AWS_SECRET_ACCESS_KEY }}
-      default_region: ${{ steps.variables.outputs.AWS_DEFAULT_REGION }}
-      my_var: ${{steps.variables.outputs.my_var}}
-
+      current_env: ${{ steps.set_env.outputs.current_env }}
 
     steps:
-      - name: Secerets Variables
-        id: variables
+      - name: Check if stage
+        if: endsWith(github.ref, '/stage')
         run: |
-          echo "::set-output name=AWS_ACCOUNT_ID::${{secrets.AWS_ACCOUNT_ID}}"
-          echo "::set-output name=AWS_PROFILE::${{secrets.AWS_PROFILE}}"
-          echo "::set-output name=AWS_ACCESS_KEY_ID::${{ secrets.AWS_ACCESS_KEY_ID }}"
-          echo "::set-output name=AWS_SECRET_ACCESS_KEY::${{ secrets.AWS_SECRET_ACCESS_KEY }}"
-          
-          
-          AWS_DEFAULT_REGION="${{ secrets.AWS_DEFAULT_REGION }}"
-          echo "Ouput [$AWS_DEFAULT_REGION]"
-          echo "AWS_DEFAULT_REGION=$AWS_DEFAULT_REGION" >> $GITHUB_OUTPUT 
-          
-          
-          
-          my_var="Hello World"
-          echo "Output [$my_var]"
-          echo "my_var=$my_var" >> $GITHUB_OUTPUT 
+          echo "ENVIRONMENT_NAME=stage" >> $GITHUB_ENV
 
-
-      - name: Debug Secrets
-        run: |
-          echo "AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}"
-          echo "AWS_PROFILE: ${{ secrets.AWS_PROFILE }}"
-          echo "AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}"
-          echo "AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}"
-          echo "AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}" 
-            
-
+      - name: Set output
+        id: set_env
+        run: echo "::set-output name=current_env::${{ env.ENVIRONMENT_NAME }}" 
+      
 
   Stage-PullRequest:
     needs: Enviroment
     if: github.event_name == 'push'
     runs-on: ubuntu-latest
+    environment: ${{ needs.set-environment.outputs.current_env }}
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Debug Output Variables
-        run: |
-          echo ${{needs.Enviroment.outputs.account_id}}
-          echo ${{needs.Enviroment.outputs.aws_profile}}
-          echo ${{needs.Enviroment.outputs.aws_access_key}}
-          echo ${{needs.Enviroment.outputs.secret_key}}
-          echo ${{needs.Enviroment.outputs.default_region}}
-          echo ${{needs.Enviroment.outputs.my_var}}
+      - name: Aws && Terraform Configuration
+        uses: ./.github/actions/aws_terraform_configuration
+        with:
+          AWS_ACCOUNT_ID: '${{secrets.AWS_ACCOUNT_ID}}'
+          AWS_PROFILE: '${{secrets.AWS_PROFILE}}'
+          AWS_ACCESS_KEY_ID: '${{ secrets.AWS_ACCESS_KEY_ID }}'
+          AWS_SECRET_ACCESS_KEY: '${{ secrets.AWS_SECRET_ACCESS_KEY }}'
+          AWS_DEFAULT_REGION: '${{ secrets.AWS_DEFAULT_REGION }}'
 
-      
-
-
-
+      - name: 'Terraform init, plan and validate'
+        uses: ./.github/actions/terraform_init_plan_validate
 
 
 
 
 
   Stage-Environment-Deployment:
+    needs: Enviroment
     if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
-    environment:
-      name: stage
+    environment: ${{ needs.set-environment.outputs.current_env }}
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
      
-
       - name: Aws && Terraform Configuration
         uses: ./.github/actions/aws_terraform_configuration
         with:
