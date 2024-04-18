@@ -6,6 +6,7 @@ name: Satyam_project
   pull_request:
     branches:
       - stage
+  
 
 jobs:
 
@@ -61,4 +62,3 @@ jobs:
         run: terraform apply -auto-approve
 
 
-        
