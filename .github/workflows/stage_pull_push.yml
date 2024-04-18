@@ -2,10 +2,10 @@ name: Satyam_project
 'on':
   push:
     branches:
-      - stage/*
+      - stage
   pull_request:
     branches:
-      - stage/*
+      - stage
 
 jobs:
 
