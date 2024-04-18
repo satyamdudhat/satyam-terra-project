@@ -10,9 +10,7 @@ name: Satyam_project
 jobs:
 
   Stage-PullRequest:
-    environment:
-      name: stage
-    if: github.event.pull_request.base.ref == 'stage'
+    if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
@@ -31,9 +29,7 @@ jobs:
 
 
   Stage-Environment-Deployment:
-    if: github.event_name == 'push' && github.ref == 'refs/heads/stage'
-    environment:
-      name: stage
+    if: github.event_name == 'push'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
