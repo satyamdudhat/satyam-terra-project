@@ -30,6 +30,15 @@ jobs:
           echo "::set-output name=AWS_SECRET_ACCESS_KEY::${{ secrets.AWS_SECRET_ACCESS_KEY }}"
           echo "::set-output name=AWS_DEFAULT_REGION::${{ secrets.AWS_DEFAULT_REGION }}"
 
+      - name: Debug Secrets
+        run: |
+          echo "AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}"
+          echo "AWS_PROFILE: ${{ secrets.AWS_PROFILE }}"
+          echo "AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}"
+          echo "AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}"
+          echo "AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}" 
+            
+
 
   Stage-PullRequest:
     needs: Enviroment
@@ -55,7 +64,7 @@ jobs:
 
 
 
-          
+
   Stage-Environment-Deployment:
     if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
