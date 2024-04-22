@@ -6,7 +6,7 @@ provider "aws" {
 # ApiGateway Table Resource Code
 module "api_gateway" {
   source           = "./modules/Api_Gateway"
-  api_name         = "EmployeeInfo"
+  api_name         = var.api_name
   uri              = module.lambda_function.invoke_arn
   function_name    = module.lambda_function.arn
   api_path_name    = [ "status", "employee", "employees" ]
@@ -16,7 +16,7 @@ module "api_gateway" {
 # DynamoDB Table Resource Code
 module "dyanmo_db" {
   source = "./modules/Dynamo_DB"
-  table_name = "employee_infos"
+  table_name = var.table_name
   hash_key_id = "employeeid"
 }
 
@@ -24,18 +24,18 @@ module "dyanmo_db" {
 # ECR Repo Code
 module "ecr_repo" {
   source = "./modules/ECR"
-  ecr_name = "satyam_project"
+  ecr_name = var.ecr_name
   image_tag_mutability = "MUTABLE"
 }
 
 
 # Lambda Code
 module "lambda_function" {
-  function_name = "satyam_lambda_function"
+  function_name = var.function_name
   source = "./modules/Lambda_Function"
   image_uri = "${module.ecr_repo.repository_url}:latest"
-  iam_role_name="satyam_lambda_execution_role"
-  ecr_access_policy="satyam_lambda_ecr_access_policy"
-  dyanmodb_access_policy="satyam_DynamoDb_access_policy"
-  cloudwatch_access_policy="satyam_cloudwatch_logs_policy"
+  iam_role_name = var.iam_role_name
+  ecr_access_policy = var.ecr_access_policy
+  dyanmodb_access_policy = var.dyanmodb_access_policy
+  cloudwatch_access_policy = var.cloudwatch_access_policy
 }
