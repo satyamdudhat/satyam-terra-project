@@ -6,7 +6,7 @@ provider "aws" {
 # ApiGateway Table Resource Code
 module "api_gateway" {
   source           = "./modules/Api_Gateway"
-  api_name         = lookup(var.Resource_name,"api_name","")
+  api_name         = "EmployeeInfo"
   uri              = module.lambda_function.invoke_arn
   function_name    = module.lambda_function.arn
   api_path_name    = [ "status", "employee", "employees" ]
@@ -16,7 +16,7 @@ module "api_gateway" {
 # DynamoDB Table Resource Code
 module "dyanmo_db" {
   source = "./modules/Dynamo_DB"
-  table_name = lookup(var.Resource_name,"table_name","")
+  table_name = "employee_infos"
   hash_key_id = "employeeid"
 }
 
@@ -24,14 +24,14 @@ module "dyanmo_db" {
 # ECR Repo Code
 module "ecr_repo" {
   source = "./modules/ECR"
-  ecr_name = lookup(var.Resource_name,"ecr_name","")
+  ecr_name = "satyam_project"
   image_tag_mutability = "MUTABLE"
 }
 
 
 # Lambda Code
 module "lambda_function" {
-  function_name = lookup(var.Resource_name,"function_name","")
+  function_name = "satyam_lambda_function"
   source = "./modules/Lambda_Function"
   image_uri = "${module.ecr_repo.repository_url}:latest"
   iam_role_name="satyam_lambda_execution_role"
