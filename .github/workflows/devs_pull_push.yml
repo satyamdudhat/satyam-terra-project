@@ -8,10 +8,23 @@ name: Satyam_project
       - devs
 
 jobs:
+  Enviroment:
+      runs-on: ubuntu-latest
+      outputs:
+        current_env: ${{ steps.set_env.outputs.my_var }}
+      steps:
+        - name: Set output
+          id: set_env
+          run: |
+            echo "my_var=devs" >> $GITHUB_OUTPUT
 
+  
   Devs-PullRequest:
+    needs: Enviroment
     if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
+    environment: 
+      name: ${{ needs.Enviroment.outputs.current_env }}
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -30,8 +43,11 @@ jobs:
 
 
   Devs-Environment-Deployment:
+    needs: Enviroment
     if: github.event_name == 'push'
     runs-on: ubuntu-latest
+    environment: 
+      name: ${{ needs.Enviroment.outputs.current_env }}
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
