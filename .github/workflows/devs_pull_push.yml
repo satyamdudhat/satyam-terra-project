@@ -49,6 +49,9 @@ jobs:
           AWS_SECRET_ACCESS_KEY: '${{ secrets.AWS_SECRET_ACCESS_KEY }}'
           AWS_DEFAULT_REGION: '${{ secrets.AWS_DEFAULT_REGION }}'
 
+      - name: Copy Terraform state file for devs
+        run: aws s3 cp s3://satyam-terra-backend-1/devs/terraform.tfstate terraform.tfstate
+
       - name: 'Terraform init, plan and validate'
         uses: ./.github/actions/terraform_init_plan_validate
 
@@ -72,6 +75,9 @@ jobs:
           AWS_SECRET_ACCESS_KEY: '${{ secrets.AWS_SECRET_ACCESS_KEY }}'
           AWS_DEFAULT_REGION: '${{ secrets.AWS_DEFAULT_REGION }}'
           GITHUB_COMMIT_HASH: '${{ github.sha }}'
+          
+      - name: Copy Terraform state file for devs
+        run: aws s3 cp s3://satyam-terra-backend-1/devs/terraform.tfstate terraform.tfstate
 
       - name: Check Repsoitery and Push Image
         uses: ./.github/actions/ECR_push_image
