@@ -5,7 +5,7 @@ runs:
   using: 'composite'
   steps:
     - name: Terraform Init
-      run: terraform init
+      run: terraform init -reconfigure
       shell: bash
 
     - name: Terraform Workspace
