@@ -16,9 +16,6 @@ env:
   TF_VAR_ecr_access_policy : "satyam_ecr_access_policy_devs"
   TF_VAR_dyanmodb_access_policy : "satyam_DynamoDb_access_policy_devs"
   TF_VAR_cloudwatch_access_policy : "satyam_cloudwatch_logs_policy_devs"
-  buckets_name : "satyam-terra-backend-1"
-  key_path : "devs/terraform.tfstate"
-
 
 
 jobs:
@@ -51,9 +48,7 @@ jobs:
           AWS_ACCESS_KEY_ID: '${{ secrets.AWS_ACCESS_KEY_ID }}'
           AWS_SECRET_ACCESS_KEY: '${{ secrets.AWS_SECRET_ACCESS_KEY }}'
           AWS_DEFAULT_REGION: '${{ secrets.AWS_DEFAULT_REGION }}'
-          TF_VAR_buckets_name: '${{ env.buckets_name}}'
-          TF_VAR_key_path: '${{ env.key_path }}'
-      
+
       - name: Terraform Init
         run: terraform init
 
@@ -84,7 +79,7 @@ jobs:
           AWS_SECRET_ACCESS_KEY: '${{ secrets.AWS_SECRET_ACCESS_KEY }}'
           AWS_DEFAULT_REGION: '${{ secrets.AWS_DEFAULT_REGION }}'
           GITHUB_COMMIT_HASH: '${{ github.sha }}'
-      
+
       - name: Terraform Init
         run: terraform init
       
