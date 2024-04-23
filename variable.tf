@@ -41,3 +41,10 @@ variable "cloudwatch_access_policy" {
     type = string
 }
 
+variable "buckets_name" {
+  type = string
+}
+
+variable "key_path" {
+  type = string
+}
