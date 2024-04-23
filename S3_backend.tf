@@ -2,8 +2,8 @@ terraform {
   backend "s3" {
     # bucket = "satyam-terra-backend-1"
     # key    = "terraform.tfstate"
-    bucket = locals.buckets_name
-    key    = locals.key_path
+    bucket = local.buckets_name
+    key    = local.key_path
     region = "ap-south-1"
     profile = "satyam"
   }
