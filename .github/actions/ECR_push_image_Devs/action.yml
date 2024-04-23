@@ -18,13 +18,13 @@ runs:
   using: 'composite'
   steps:
     - name: Check ECR Repository
-      run: bash scripts/ecr_repo_check.sh
+      run: bash scripts/ecr_repo_check_devs.sh
       env:
         AWS_PROFILE: ${{ inputs.AWS_PROFILE }}
       shell: bash
             
     - name: Push Image in ECR
-      run: bash scripts/image_push_code.sh
+      run: bash scripts/image_push_code_devs.sh
       env:
           AWS_ACCOUNT_ID: ${{ inputs.AWS_ACCOUNT_ID }}
           AWS_DEFAULT_REGION: ${{ inputs.AWS_DEFAULT_REGION }}

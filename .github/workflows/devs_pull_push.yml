@@ -87,7 +87,7 @@ jobs:
         run: terraform workspace select devs
       
       - name: Check Repsoitery and Push Image
-        uses: ./.github/actions/ECR_push_image
+        uses: ./.github/actions/ECR_push_image_Devs
         with:
           AWS_ACCOUNT_ID: '${{secrets.AWS_ACCOUNT_ID}}'
           AWS_DEFAULT_REGION: '${{ secrets.AWS_DEFAULT_REGION }}'
