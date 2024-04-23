@@ -4,5 +4,5 @@ if aws ecr describe-repositories --repository-names "satyam_project_devs" --prof
     echo "ECR repository exists"
     echo "::set-output name=exists::true"
 else
-    terraform apply -auto-approve --target=aws_ecr_repository.ecr_repo
+    terraform apply -target=module.ECR.aws_ecr_repository.ecr_repo
 fi
