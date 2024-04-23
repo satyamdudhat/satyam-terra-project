@@ -8,6 +8,10 @@ runs:
       run: terraform init
       shell: bash
 
+    - name: Terraform Workspace
+      run: terraform workspace select devs
+      shell: bash
+
     - name: Terraform Plan
       run: terraform plan
       shell: bash
