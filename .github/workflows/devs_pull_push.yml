@@ -16,6 +16,9 @@ env:
   TF_VAR_ecr_access_policy : "satyam_ecr_access_policy_devs"
   TF_VAR_dyanmodb_access_policy : "satyam_DynamoDb_access_policy_devs"
   TF_VAR_cloudwatch_access_policy : "satyam_cloudwatch_logs_policy_devs"
+  TF_VAR_buckets_name : "satyam-terra-backend-1"
+  TF_var_key_path : "devs/terraform.tfstate"
+
 
 
 jobs:

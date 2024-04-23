@@ -40,3 +40,4 @@ variable "dyanmodb_access_policy" {
 variable "cloudwatch_access_policy" {
     type = string
 }
+
