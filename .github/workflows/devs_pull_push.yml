@@ -48,7 +48,7 @@ jobs:
           AWS_ACCESS_KEY_ID: '${{ secrets.AWS_ACCESS_KEY_ID }}'
           AWS_SECRET_ACCESS_KEY: '${{ secrets.AWS_SECRET_ACCESS_KEY }}'
           AWS_DEFAULT_REGION: '${{ secrets.AWS_DEFAULT_REGION }}'
-
+      
       - name: Terraform Init
         run: terraform init
 
@@ -79,9 +79,12 @@ jobs:
           AWS_SECRET_ACCESS_KEY: '${{ secrets.AWS_SECRET_ACCESS_KEY }}'
           AWS_DEFAULT_REGION: '${{ secrets.AWS_DEFAULT_REGION }}'
           GITHUB_COMMIT_HASH: '${{ github.sha }}'
-
+      
       - name: Terraform Init
         run: terraform init
+        env:
+          TF_VAR_bucket_name : "satyam-terra-backend-1"
+          TF_VAR_key_name : "devs/terraform.tfstate"
       
       - name: Terraform Workspace
         run: terraform workspace select devs
