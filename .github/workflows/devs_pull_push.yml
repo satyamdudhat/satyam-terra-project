@@ -49,8 +49,15 @@ jobs:
           AWS_SECRET_ACCESS_KEY: '${{ secrets.AWS_SECRET_ACCESS_KEY }}'
           AWS_DEFAULT_REGION: '${{ secrets.AWS_DEFAULT_REGION }}'
 
+      - name: Terraform Workspace
+        run: terraform workspace select devs
+      
+      - name: Terraform Init
+        run: terraform init
+
       - name: 'Terraform init, plan and validate'
-        uses: ./.github/actions/terraform_init_plan_validate
+        uses: ./.github/actions/terraform_plan_validate
+
 
 
   Devs-Environment-Deployment:
@@ -72,6 +79,12 @@ jobs:
           AWS_SECRET_ACCESS_KEY: '${{ secrets.AWS_SECRET_ACCESS_KEY }}'
           AWS_DEFAULT_REGION: '${{ secrets.AWS_DEFAULT_REGION }}'
           GITHUB_COMMIT_HASH: '${{ github.sha }}'
+      
+      - name: Terraform Workspace
+        run: terraform workspace select devs
+      
+      - name: Terraform Init
+        run: terraform init
 
       - name: Check Repsoitery and Push Image
         uses: ./.github/actions/ECR_push_image
@@ -82,7 +95,7 @@ jobs:
           GITHUB_COMMIT_HASH: '${{ github.sha }}'
       
       - name: Terraform init, plan and validate
-        uses: ./.github/actions/terraform_init_plan_validate
+        uses: ./.github/actions/terraform_plan_validate
       
       - name: Terraform Apply
         run: terraform apply -auto-approve 

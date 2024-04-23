@@ -4,14 +4,7 @@ description: 'Terraform init, plan and validate command'
 runs:
   using: 'composite'
   steps:
-    - name: Terraform Init
-      run: terraform init -reconfigure
-      shell: bash
-
-    - name: Terraform Workspace
-      run: terraform workspace select devs
-      shell: bash
-
+  
     - name: Terraform Plan
       run: terraform plan
       shell: bash
