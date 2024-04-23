@@ -17,7 +17,14 @@ inputs:
   AWS_DEFAULT_REGION:
     description: 'A Github AWS_DEFAULT_REGION'
     required: true
-
+  TF_VAR_buckets_name:
+    description: "Bucket Name"
+    required: true
+  TF_VAR_key_path:
+    description: "Key Path of Bucket"
+    required: true
+  
+  
 runs:
   using: 'composite'
   steps:
