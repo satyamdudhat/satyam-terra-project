@@ -6,7 +6,17 @@ name: Satyam_project
   pull_request:
     branches:
       - stage
-  
+
+env:
+  TF_VAR_api_name : "EmployeeInfo_stage"
+  TF_VAR_table_name : "employee_infos_stage"
+  TF_VAR_ecr_name : "project_stage"
+  TF_VAR_function_name : "lambda_function_stage"
+  TF_VAR_iam_role_name : "lambda_execution_role_stage"
+  TF_VAR_ecr_access_policy : "ecr_access_policy_stage"
+  TF_VAR_dyanmodb_access_policy : "DynamoDb_access_policy_stage"
+  TF_VAR_cloudwatch_access_policy : "cloudwatch_logs_policy_stage"
+
 
 jobs:
   Enviroment:
@@ -39,7 +49,13 @@ jobs:
           AWS_SECRET_ACCESS_KEY: '${{ secrets.AWS_SECRET_ACCESS_KEY }}'
           AWS_DEFAULT_REGION: '${{ secrets.AWS_DEFAULT_REGION }}'
 
-      - name: 'Terraform init, plan and validate'
+      - name: Terraform Init
+        run: terraform init
+
+      - name: Terraform Workspace
+        run: terraform workspace select stage
+
+      - name: Terraform plan and validate
         uses: ./.github/actions/terraform_plan_validate
 
 
@@ -65,6 +81,13 @@ jobs:
           AWS_SECRET_ACCESS_KEY: '${{ secrets.AWS_SECRET_ACCESS_KEY }}'
           AWS_DEFAULT_REGION: '${{ secrets.AWS_DEFAULT_REGION }}'
           GITHUB_COMMIT_HASH: '${{ github.sha }}'
+      
+      - name: Terraform Init
+        run: terraform init
+
+      - name: Terraform Workspace
+        run: terraform workspace select stage
+
 
       - name: Check Repsoitery and Push Image
         uses: ./.github/actions/ECR_push_image
@@ -74,7 +97,7 @@ jobs:
           AWS_PROFILE: '${{secrets.AWS_PROFILE}}'
           GITHUB_COMMIT_HASH: '${{ github.sha }}'
       
-      - name: Terraform init, plan and validate
+      - name: Terraform plan and validate
         uses: ./.github/actions/terraform_plan_validate
       
       - name: Terraform Apply

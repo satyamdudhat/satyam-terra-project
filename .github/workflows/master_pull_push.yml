@@ -52,7 +52,7 @@ jobs:
         run: terraform init
 
       - name: Terraform Workspace
-        run: terraform workspace select default
+        run: terraform workspace select stage
 
       - name: 'Terraform plan and validate'
         uses: ./.github/actions/terraform_plan_validate
@@ -82,7 +82,7 @@ jobs:
         run: terraform init
 
       - name: Terraform Workspace
-        run: terraform workspace select default
+        run: terraform workspace select stage
 
 
       - name: Check Repsoitery and Push Image
