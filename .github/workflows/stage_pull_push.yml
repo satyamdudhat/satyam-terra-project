@@ -90,7 +90,7 @@ jobs:
 
 
       - name: Check Repsoitery and Push Image
-        uses: ./.github/actions/ECR_push_image
+        uses: ./.github/actions/ECR_push_image_stage
         with:
           AWS_ACCOUNT_ID: '${{secrets.AWS_ACCOUNT_ID}}'
           AWS_DEFAULT_REGION: '${{ secrets.AWS_DEFAULT_REGION }}'
