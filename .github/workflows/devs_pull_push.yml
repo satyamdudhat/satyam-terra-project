@@ -10,12 +10,12 @@ name: Satyam_project
 env:
   TF_VAR_api_name : "EmployeeInfo_devs"
   TF_VAR_table_name : "employee_infos_devs"
-  TF_VAR_ecr_name : "satyam_project_devs"
-  TF_VAR_function_name : "satyam_lambda_function_devs"
-  TF_VAR_iam_role_name : "satyam_lambda_execution_role_devs"
-  TF_VAR_ecr_access_policy : "satyam_ecr_access_policy_devs"
-  TF_VAR_dyanmodb_access_policy : "satyam_DynamoDb_access_policy_devs"
-  TF_VAR_cloudwatch_access_policy : "satyam_cloudwatch_logs_policy_devs"
+  TF_VAR_ecr_name : "project_devs"
+  TF_VAR_function_name : "lambda_function_devs"
+  TF_VAR_iam_role_name : "lambda_execution_role_devs"
+  TF_VAR_ecr_access_policy : "ecr_access_policy_devs"
+  TF_VAR_dyanmodb_access_policy : "DynamoDb_access_policy_devs"
+  TF_VAR_cloudwatch_access_policy : "cloudwatch_logs_policy_devs"
 
 
 jobs:
